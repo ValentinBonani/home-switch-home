@@ -21,7 +21,20 @@ function authenticate(req, res, next) {
     }
   }
 
+  function logout (req, res, next) {
+    if (req.session) {
+      req.session.destroy(function(err) {
+        if(err) {
+          return next(err);
+        } else {
+          return res.redirect('/login');
+        }
+      });
+    }
+  }
+
   return {
-    authenticate
+    authenticate,
+    logout,
   }
 }
