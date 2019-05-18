@@ -54,20 +54,23 @@ module.exports = (app, router) => {
         .post(authenticateController.authenticate);
 
     router.route("/admin")
-      .get(paginasAdminController.renderLoginAdmin);
-    
-      router.route("/admin/home")
-      .get(authAdmin, paginasAdminController.renderAdminHome);
+        .get(paginasAdminController.renderLoginAdmin);
+
+    router.route("/admin/home")
+        .get(authAdmin, paginasAdminController.renderAdminHome);
 
     router.route("/admin/authenticate")
         .post(authenticateController.authenticateAdmin);
 
     router.route("/admin/add-property")
-      .get(authAdmin, paginasAdminController.renderAddProperty);
+        .get(authAdmin, paginasAdminController.renderAddProperty);
 
     router.route("/admin/edit-property/:id")
         .get(paginasAdminController.renderEditProperty);
 
     router.get('/logout', authenticateController.logout);
+
+    router.get('/admin/property/:id', paginasAdminController.renderPropertyDetails);
+    router.get('/delete-property/:id', paginasAdminController.deleteProperty);
     return router;
 };

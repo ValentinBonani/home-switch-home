@@ -15,55 +15,59 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="card">
-                            <form action="/propiedades/{{propiedad._id}}" method="post" class="form-horizontal">
+                            <form action="" method="get" class="form-horizontal">
                                 <div class="card-body">
                                     <h4 class="card-title">Detalles de propiedad</h4>
                                     <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Pais</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="pais" class="form-control" id="fname" value="{{propiedad.pais}}" placeholder="Ingrese Pais">
+                                            <input disabled type="text" name="pais" class="form-control" id="fname" value="{{propiedad.pais}}" placeholder="Ingrese Pais">
                                         </div>
                                     </div>
                                      <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Provincia</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="provincia" class="form-control" id="fname"value="{{propiedad.provincia}}" placeholder="Ingrese Provincia">
+                                            <input disabled type="text" name="provincia" class="form-control" id="fname"value="{{propiedad.provincia}}" placeholder="Ingrese Provincia">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lname" class="col-sm-3 text-right control-label col-form-label">Ciudad</label>
                                         <div class="col-sm-9">
-                                            <input name="ciudad" type="text" class="form-control" id="lname"value="{{propiedad.ciudad}}" placeholder="Ingrese Ciudad">
+                                            <input disabled name="ciudad" type="text" class="form-control" id="lname"value="{{propiedad.ciudad}}" placeholder="Ingrese Ciudad">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lname" class="col-sm-3 text-right control-label col-form-label">Direccion</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="direccion" class="form-control" id="lname" value="{{propiedad.direccion}}" placeholder="Ingrese Direccion">
+                                            <input disabled type="text" name="direccion" class="form-control" id="lname" value="{{propiedad.direccion}}" placeholder="Ingrese Direccion">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email1" class="col-sm-3 text-right control-label col-form-label">Tipo</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="tipo" class="form-control" id="email1" value="{{propiedad.tipo}}" placeholder="Ingrese Tipo">
+                                            <input disabled type="text" name="tipo" class="form-control" id="email1" value="{{propiedad.tipo}}" placeholder="Ingrese Tipo">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Imagen</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="imagen" class="form-control" id="cono1" value="{{propiedad.imagen}}" placeholder="Ingrese imagen">
+                                            <input disabled type="text" name="imagen" class="form-control" id="cono1" value="{{propiedad.imagen}}" placeholder="Ingrese imagen">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Descripcion</label>
                                         <div class="col-sm-9">
-                                            <input name="descripcion" value="{{propiedad.descripcion}}" class="form-control"></input>
+                                            <input disabled name="descripcion" value="{{propiedad.descripcion}}" class="form-control"></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="border-top">
                                     <div class="card-body">
-                                        <input type="submit" value="Aceptar cambio" class="btn btn-primary  py-2 px-4 rounded-0">
+                                        <input type="submit" formaction="/admin/edit-property/{{propiedad._id}}" value="Modificar Propiedad" class="btn btn-primary  py-2 px-4 rounded-0">
+                                    </div>
+                                    <div class="card-body">
+                                        <button type="submit" method="delete" formaction="/delete-property/{{propiedad._id}}">Eliminar Propiedad</button>
+
                                     </div>
                                 </div>
                             </form>
