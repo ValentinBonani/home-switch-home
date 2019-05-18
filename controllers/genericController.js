@@ -44,7 +44,8 @@ module.exports = function GenericController(mongoose, modelName, listOptions) {
       const modelDTO = (normalizer && normalizer.normalize) ? normalizer.normalize(req.body) : req.body;
       Model.create(modelDTO)
         .then((model) => {
-          res.response200(model, `${modelName} '${model._id}' successfully created.`);
+          /* res.response200(model, `${modelName} '${model._id}' successfully created.`); */
+          res.redirect("/admin/home");
         })
         .catch((err) => {
           res.response500(err, `${modelName} couldn't be created!`);

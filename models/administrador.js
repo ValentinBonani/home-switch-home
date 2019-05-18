@@ -37,6 +37,28 @@ AdministradorSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
+AdministradorSchema.statics.authenticate = function (email, password, callback) {
+    Administrador.findOne({ email: email })
+      .exec(function (err, admin) {
+        if (err) {
+          return callback(err)
+        } else if (!admin) {
+          var err = new Error('admin not found.');
+          err.status = 401;
+          return callback(err);
+        }
+        bcrypt.compare(password, admin.password, function (err, result) {
+          if (result === true) {
+            return callback(null, admin);
+          } else {
+            return callback();
+          }
+        })
+      });
+  }
+
+
+
 const Administrador = mongoose.model("Administrador", AdministradorSchema);
 
 module.exports = Administrador;

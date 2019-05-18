@@ -2,7 +2,9 @@ const {
     UsuariosController,
     PaginasController,
     AdministradorController,
-    AuthenticateController
+    AuthenticateController,
+    PropiedadesController,
+    PaginasAdminController
   } = require("./controllers");
 
   const auth = require("./middleware/auth")
@@ -26,10 +28,13 @@ const {
     const paginasController = PaginasController(mongoose);
     const administradorController = AdministradorController(mongoose);
     const authenticateController = AuthenticateController(mongoose);
+    const propiedadesController = PropiedadesController(mongoose);
+    const paginasAdminController = PaginasAdminController(mongoose);
   
     const controllers = [
       {basePath: "/usuarios", controller: usuariosController},
       {basePath: "/administrador", controller: administradorController},
+      {basePath: "/propiedades", controller: propiedadesController},
     ];
   
     mapGenericControllerRoutes(controllers, router);
@@ -46,6 +51,18 @@ const {
 
     router.route("/authenticate")
       .post(authenticateController.authenticate);
+
+    router.route("/admin")
+      .get(paginasAdminController.renderLoginAdmin);
+    
+      router.route("/admin/home")
+      .get(paginasAdminController.renderAdminHome);
+
+    router.route("/admin/authenticate")
+      .post(authenticateController.authenticateAdmin);
+
+    router.route("/admin/add-property")
+      .get(paginasAdminController.renderAddProperty);
 
     router.get('/logout', function(req, res, next) {
         if (req.session) {
