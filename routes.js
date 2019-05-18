@@ -7,7 +7,8 @@ const {
     PaginasAdminController
   } = require("./controllers");
 
-  const auth = require("./middleware/auth")
+  const auth = require("./middleware/auth");
+  const authAdmin = require("./middleware/authAdmin");
   
   function mapGenericControllerRoutes(controllers, router) {
     controllers.forEach(({basePath, controller}) => {
@@ -56,13 +57,13 @@ const {
       .get(paginasAdminController.renderLoginAdmin);
     
       router.route("/admin/home")
-      .get(paginasAdminController.renderAdminHome);
+      .get(authAdmin, paginasAdminController.renderAdminHome);
 
     router.route("/admin/authenticate")
       .post(authenticateController.authenticateAdmin);
 
     router.route("/admin/add-property")
-      .get(paginasAdminController.renderAddProperty);
+      .get(authAdmin, paginasAdminController.renderAddProperty);
 
     router.get('/logout', authenticateController.logout);
     return router;
