@@ -53,9 +53,11 @@ module.exports = (mongoose) => {
         response.render("login",{});
     }
 
+    
+
     return {
         renderHome,
         renderContact,
-        renderLogin,
+        renderLogin
     }
 }

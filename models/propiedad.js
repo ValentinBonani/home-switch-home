@@ -6,7 +6,8 @@ const PropiedadSchema = new mongoose.Schema({
   ciudad: { type: String, required: true },
   descripcion: { type: String, required: true },
   tipo: { type: String, required: true },
-  imagen: { type: String, required: true }
+  imagen: { type: String, required: true },
+  provincia: { type: String, required: true }
 });
 
 const Propiedad = mongoose.model("Propiedad", PropiedadSchema);

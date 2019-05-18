@@ -12,11 +12,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
     <title>Matrix Template - The Ultimate Multipurpose admin template</title>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="../libs/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="../libs/jquery-minicolors/jquery.minicolors.css">
-    <link rel="stylesheet" type="text/css" href="../libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="../libs/quill/dist/quill.snow.css">
-    <link href="../css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/libs/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/jquery-minicolors/jquery.minicolors.css">
+    <link rel="stylesheet" type="text/css" href="/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/quill/dist/quill.snow.css">
+    <link href="/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -304,55 +304,55 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="card">
-                            <form action="/propiedades" method="post" class="form-horizontal">
+                            <form action="/propiedades/{{propiedad._id}}" method="post" class="form-horizontal">
                                 <div class="card-body">
                                     <h4 class="card-title">Nueva Propiedad</h4>
                                     <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Pais</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="pais" class="form-control" id="fname" placeholder="Ingrese Pais">
+                                            <input type="text" name="pais" class="form-control" id="fname" value="{{propiedad.pais}}" placeholder="Ingrese Pais">
                                         </div>
                                     </div>
                                      <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Provincia</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="provincia" class="form-control" id="fname" placeholder="Ingrese Provincia">
+                                            <input type="text" name="provincia" class="form-control" id="fname"value="{{propiedad.provincia}}" placeholder="Ingrese Provincia">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lname" class="col-sm-3 text-right control-label col-form-label">Ciudad</label>
                                         <div class="col-sm-9">
-                                            <input name="ciudad" type="text" class="form-control" id="lname" placeholder="Ingrese Ciudad">
+                                            <input name="ciudad" type="text" class="form-control" id="lname"value="{{propiedad.ciudad}}" placeholder="Ingrese Ciudad">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lname" class="col-sm-3 text-right control-label col-form-label">Direccion</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="direccion" class="form-control" id="lname" placeholder="Ingrese Direccion">
+                                            <input type="text" name="direccion" class="form-control" id="lname" value="{{propiedad.direccion}}" placeholder="Ingrese Direccion">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email1" class="col-sm-3 text-right control-label col-form-label">Tipo</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="tipo" class="form-control" id="email1" placeholder="Ingrese Tipo">
+                                            <input type="text" name="tipo" class="form-control" id="email1" value="{{propiedad.tipo}}" placeholder="Ingrese Tipo">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Imagen</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="imagen" class="form-control" id="cono1" placeholder="Ingrese imagen">
+                                            <input type="text" name="imagen" class="form-control" id="cono1" value="{{propiedad.imagen}}" placeholder="Ingrese imagen">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Descripcion</label>
                                         <div class="col-sm-9">
-                                            <textarea name="descripcion" class="form-control"></textarea>
+                                            <input name="descripcion" value="{{propiedad.descripcion}}" class="form-control"></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="border-top">
                                     <div class="card-body">
-                                        <input type="submit" value="Agregar" class="btn btn-primary  py-2 px-4 rounded-0">
+                                        <input type="submit" value="Aceptar cambio" class="btn btn-primary  py-2 px-4 rounded-0">
                                     </div>
                                 </div>
                             </form>
