@@ -1,5 +1,6 @@
 module.exports = (mongoose) => {
     const Propiedad = mongoose.model("Propiedad");
+    const Subasta = mongoose.model("Subasta");
     const reques = require('request');
 
 
@@ -9,7 +10,6 @@ module.exports = (mongoose) => {
 
     function renderAdminHome(request, response) {
         Propiedad.find({}).then((propiedades) => {
-            console.log(propiedades)
             response.render("admin/properties", { propiedades })
         })
     }
@@ -23,8 +23,9 @@ module.exports = (mongoose) => {
     }
 
     async function renderPropertyDetails(request, response) {
-        propiedad = await Propiedad.find({ _id: request.params.id });
-        response.render("admin/detail-property", { propiedad: propiedad[0] });
+        propiedad = await Propiedad.findOne({ _id: request.params.id }).populate("subastas").exec();
+        console.log(propiedad)
+        response.render("admin/detail-property", { propiedad: propiedad });
     }
 
     function deleteProperty(request, response) {

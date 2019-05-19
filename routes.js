@@ -4,7 +4,8 @@ const {
     AdministradorController,
     AuthenticateController,
     PropiedadesController,
-    PaginasAdminController
+    PaginasAdminController,
+    SubastasController
 } = require("./controllers");
 
 const auth = require("./middleware/auth");
@@ -31,11 +32,13 @@ module.exports = (app, router) => {
     const authenticateController = AuthenticateController(mongoose);
     const propiedadesController = PropiedadesController(mongoose);
     const paginasAdminController = PaginasAdminController(mongoose);
+    const subastasController = SubastasController(mongoose);
 
     const controllers = [
         { basePath: "/usuarios", controller: usuariosController },
         { basePath: "/administrador", controller: administradorController },
         { basePath: "/propiedades", controller: propiedadesController },
+        { basePath: "/subastas", controller: subastasController },
     ];
 
     mapGenericControllerRoutes(controllers, router);

@@ -4,6 +4,7 @@ const PaginasAdminController = require("./paginasAdmin");
 const AdministradorController = require("./administrador");
 const AuthenticateController = require("./authenticate");
 const PropiedadesController = require("./propiedades");
+const SubastasController = require("./subasta");
 
 module.exports = {
     UsuariosController,
@@ -11,5 +12,6 @@ module.exports = {
     AdministradorController,
     AuthenticateController,
     PropiedadesController,
-    PaginasAdminController
+    PaginasAdminController,
+    SubastasController
 }
