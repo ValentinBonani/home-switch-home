@@ -1,6 +1,5 @@
 module.exports = (mongoose) => {
     const Propiedad = mongoose.model("Propiedad");
-    const Subasta = mongoose.model("Subasta");
     const reques = require('request');
 
 
@@ -23,9 +22,8 @@ module.exports = (mongoose) => {
     }
 
     async function renderPropertyDetails(request, response) {
-        propiedad = await Propiedad.findOne({ _id: request.params.id }).populate("subastas").exec();
-        console.log(propiedad)
-        response.render("admin/detail-property", { propiedad: propiedad });
+        propiedad = await Propiedad.findOne({ _id: request.params.id })
+        response.render("admin/property-detail", { propiedad });
     }
 
     function deleteProperty(request, response) {
@@ -33,12 +31,85 @@ module.exports = (mongoose) => {
         return response.redirect('/admin/home');
     }
 
+    async function renderSubastasList(request, response) {
+        semanasConSubasta = []
+        propiedades = await Propiedad.find({})
+        propiedadesConSubasta = propiedades.filter((propiedad) => {
+            semana = propiedad.semanas.find((semana) => {
+                return semana.tipo === "Subasta"
+            })
+            if (semana && !semana.subasta.habilitada) {
+                console.log(semana);
+                semanasConSubasta.push(semana);
+                return semana
+            }
+            return false
+        })
+        response.render("admin/subastas-list", {
+            propiedadesConSubasta,
+            semanasConSubasta,
+            title: "Posibles Subastas"
+
+        });
+    }
+
+    async function renderActiveSubastasList(request, response) {
+        semanasConSubasta = []
+        propiedades = await Propiedad.find({})
+        propiedadesConSubasta = propiedades.filter((propiedad) => {
+            semana = propiedad.semanas.find((semana) => {
+                return semana.tipo === "Subasta"
+            })
+            if (semana && semana.subasta.habilitada) {
+                console.log(semana);
+                semanasConSubasta.push(semana);
+                return semana
+            }
+            return false
+        })
+        response.render("admin/subastas-list", {
+            propiedadesConSubasta,
+            semanasConSubasta,
+            title: "Subastas Activas"
+        });
+    }
+
+    async function renderSubastasDetail(request, response) {
+        propiedad = await Propiedad.findOne({ _id: request.params.id })
+        subasta = propiedad.semanas.find((semana) => {
+            return semana.tipo === "Subasta"
+        })
+        response.render("admin/subasta-detail", {
+            propiedad,
+            subasta
+        });
+    }
+
+    async function activateSubasta(request, response) {
+        propiedad = await Propiedad.findOne({ _id: request.params.id })
+        semana = propiedad.semanas.find((semana) => {
+            return semana.tipo === "Subasta"
+        })
+        console.log(request.body)
+        semana.subasta.montoMinimo = request.body.montoMinimo
+        semana.subasta.habilitada = true;
+        propiedad.semanas[semana.numeroSemana - 1] = semana;
+        propiedad.save();
+        return response.redirect("/admin/subastas-list");
+    }
+
+
+
     return {
         renderAdminHome,
         renderLoginAdmin,
         renderAddProperty,
         renderEditProperty,
         renderPropertyDetails,
-        deleteProperty
+        deleteProperty,
+        renderSubastasList,
+        activateSubasta,
+        renderSubastasDetail,
+        renderActiveSubastasList
     }
 }

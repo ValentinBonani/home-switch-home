@@ -6,18 +6,21 @@
 <body>
     {{> admin/template/header }}
         <div class="page-wrapper">
-            
-            <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
+            <div class="page-breadcrumb">
                 <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h1 class="page-title">Detalles de subasta</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row el-element-overlay">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="card">
                             <form action="" method="get" class="form-horizontal">
                                 <div class="card-body">
-                                    <h4 class="card-title">Detalles de propiedad</h4>
+                                    <h4 class="card-title">Propiedad</h4>
                                     <div class="form-group row">
                                         <label for="fname" class="col-sm-3 text-right control-label col-form-label">Pais</label>
                                         <div class="col-sm-9">
@@ -61,26 +64,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="border-top">
-                                    <div class="card-body">
-                                        <input type="submit" formaction="/admin/edit-property/{{propiedad._id}}" value="Modificar Propiedad" class="btn btn-primary  py-2 px-4 rounded-0">
+                            </form>
+                        </div>
+                        <div class="card">
+                            <form action="/admin/activate-subasta/{{propiedad._id}}" method="post" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Subasta</h4>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                            Numero de semana
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <div class="form-control">
+                                                {{#subasta}}
+                                                    {{ numeroSemana }}
+                                                {{/subasta}}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <button type="submit" method="delete" formaction="/delete-property/{{propiedad._id}}">Eliminar Propiedad</button>
-
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Monto Minimo</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="montoMinimo" class="form-control" id="fname" required  placeholder="Ingrese monto">
+                                        </div>
+                                    </div>
+                                    <div class="border-top">
+                                        <div class="card-body">
+                                            <input type="submit" value="Comenzar Subasta" class="btn btn-primary  py-2 px-4 rounded-0">
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div>  
                 </div>
-                
             </div>
-            {{> admin/template/footer }}
+           {{> admin/template/footer }}
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
     </div>
     {{> admin/template/scripts }}
 </body>

@@ -5,7 +5,6 @@ const {
     AuthenticateController,
     PropiedadesController,
     PaginasAdminController,
-    SubastasController
 } = require("./controllers");
 
 const auth = require("./middleware/auth");
@@ -32,13 +31,11 @@ module.exports = (app, router) => {
     const authenticateController = AuthenticateController(mongoose);
     const propiedadesController = PropiedadesController(mongoose);
     const paginasAdminController = PaginasAdminController(mongoose);
-    const subastasController = SubastasController(mongoose);
 
     const controllers = [
         { basePath: "/usuarios", controller: usuariosController },
         { basePath: "/administrador", controller: administradorController },
         { basePath: "/propiedades", controller: propiedadesController },
-        { basePath: "/subastas", controller: subastasController },
     ];
 
     mapGenericControllerRoutes(controllers, router);
@@ -48,32 +45,35 @@ module.exports = (app, router) => {
     router.route("/")
         .get(auth, paginasController.renderHome);
     router.route("/contact")
-        .get(paginasController.renderContact);
-
+        .get(auth, paginasController.renderContact);
     router.route("/login")
         .get(paginasController.renderLogin);
-
+    router.route("/property-list")
+        .get(auth, paginasController.renderSubastaList);
+    router.route("/subasta-list")
+        .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
         .post(authenticateController.authenticate);
 
     router.route("/admin")
         .get(paginasAdminController.renderLoginAdmin);
-
     router.route("/admin/home")
         .get(authAdmin, paginasAdminController.renderAdminHome);
-
     router.route("/admin/authenticate")
         .post(authenticateController.authenticateAdmin);
-
     router.route("/admin/add-property")
         .get(authAdmin, paginasAdminController.renderAddProperty);
-
     router.route("/admin/edit-property/:id")
         .get(paginasAdminController.renderEditProperty);
 
     router.get('/logout', authenticateController.logout);
+    router.get('/logoutAdmin', authenticateController.logoutAdmin);
+    router.get('/admin/property/:id', authAdmin, paginasAdminController.renderPropertyDetails);
+    router.get('/delete-property/:id', authAdmin, paginasAdminController.deleteProperty);
+    router.get('/admin/subastas-list', authAdmin, paginasAdminController.renderSubastasList);
+    router.get('/admin/active-subastas-list', authAdmin, paginasAdminController.renderActiveSubastasList);
+    router.get('/admin/subasta/:id', authAdmin, paginasAdminController.renderSubastasDetail);
+    router.post('/admin/activate-subasta/:id', authAdmin, paginasAdminController.activateSubasta);
 
-    router.get('/admin/property/:id', paginasAdminController.renderPropertyDetails);
-    router.get('/delete-property/:id', paginasAdminController.deleteProperty);
     return router;
 };

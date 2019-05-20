@@ -1,11 +1,25 @@
+var moment = require('moment');
 const mongoose = require("mongoose");
 
-const SemanaSchema = new mongoose.Schema({
 
+const PujaSchema = new mongoose.Schema({
+    usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
+    monto: { type: String, required: true },
+});
+
+const SubastaSchema = new mongoose.Schema({
+    montoMinimo: { type: String, required: true },
+    habilitada: { type: Boolean, default: false },
+    pujas: [PujaSchema],
+});
+
+const SemanaSchema = new mongoose.Schema({
     numeroSemana: { type: String, required: true },
-    tipo: {type:String, required: true},
-    subasta: {type:mongoose.Schema.Types.ObjectId, ref:"Subasta"},
-    propiedad: {type:mongoose.Schema.Types.ObjectId, ref:"Propiedad", required:true}
+    tipo: { type: String, required: true },
+    subasta: SubastaSchema,
 });
 
 const PropiedadSchema = new mongoose.Schema({
@@ -19,25 +33,45 @@ const PropiedadSchema = new mongoose.Schema({
     semanas: [SemanaSchema]
 });
 
-Semanas = Array(50).fill({numeroSemana:1,tipo:"Disponible",propiedad:""})
-PropiedadSchema.post('save',  (next) => {
-    const propiedad = this;
-    console.log(propiedad)
-    Semanas.map( (semana,index) => {
-        semana.numeroSemana = index + 1;
-        semana.propiedad = propiedad._id;
-    })
-    const Semana = mongoose.model("Semana")
-    Semana.create(Semanas).then(() => {
-        next();
-    })
+PropiedadSchema.post('save', (propiedad, next) => {
+    if (propiedad.semanas.length === 0) {
+        propiedad.semanas = Array(50).fill({}).map(mapSemanas)
+        propiedad.save();
+    }
+    next();
 })
 
+function mapSemanas(propiedad, index, arr) {
 
+    semanaSubasta = determineSubasta();
 
+    let newSemana = {
+        numeroSemana: index + 1,
+        tipo: 'Disponible'
+    }
+
+    if (newSemana.numeroSemana === semanaSubasta) {
+        newSemana.tipo = 'Subasta'
+        newSemana.subasta = {
+            montoMinimo: 0,
+            pujas: []
+        }
+    }
+    return newSemana;
+}
+
+function determineSubasta() {
+    semanaActual = moment().week();
+    semanaSubasta = semanaActual + 24;
+    if (semanaSubasta > 50)
+        semanaSubasta -= 50;
+    return semanaSubasta
+}
 
 const Propiedad = mongoose.model("Propiedad", PropiedadSchema);
 const Semana = mongoose.model("Semana", SemanaSchema);
+const Subasta = mongoose.model("Subasta", SubastaSchema);
+const Puja = mongoose.model("Puja", PujaSchema);
 
 module.exports = {
     Propiedad,

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> admin/template/head }}
+
+<body>
+    {{> admin/template/header }}
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Listado de {{title}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row el-element-overlay">
+                    {{#propiedadesConSubasta}}
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="el-card-item">
+                                        <div class="el-card-avatar el-overlay-1"> <img src="https://plakas.com.ar/wp-content/uploads/2018/07/00-casita.jpg" alt="user" />
+                                            <div class="el-overlay">
+                                                <ul class="list-style-none el-info">
+                                                    <li class="el-item"><a class="btn default btn-outline image-popup-vertical-fit el-link" href="/admin/subasta/{{_id}}"><i class="mdi mdi-magnify-plus"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="el-card-content">
+                                            <h4 class="m-b-0">Subasta de {{direccion}}</h4> <span class="text-muted">subtitle of project</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    {{/propiedadesConSubasta}}
+                </div>
+            </div>
+           {{> admin/template/footer }}
+        </div>
+    </div>
+    {{> admin/template/scripts }}
+</body>
+
+</html>
