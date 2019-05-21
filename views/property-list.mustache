@@ -35,28 +35,11 @@
                             </a>
 
                             <div class="p-4 property-body">
-                                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
                                 <h2 class="property-title"><a href="#">{{direccion}}</a></h2>
                                 <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> {{direccion}} {{ciudad}}, {{provincia}} {{pais}}</span>
                                 <strong class="property-price text-primary mb-3 d-block text-success">{{tipo}}</strong>
                                 <p>{{descripcion}}</p>
-                                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                                    <li>
-                                        <span class="property-specs">Camas</span>
-                                        <span class="property-specs-number">2</span>
-
-                                    </li>
-                                    <li>
-                                        <span class="property-specs">Baños</span>
-                                        <span class="property-specs-number">2</span>
-
-                                    </li>
-                                    <li>
-                                        <span class="property-specs">Mts <sup>2</sup></span>
-                                        <span class="property-specs-number">5,500</span>
-
-                                    </li>
-                                </ul>
+                                
                             </div>
 
                         </div>
@@ -64,7 +47,18 @@
                 </div>
             {{/propiedades}}
 
-            <div class="row mt-5">
+            {{^propiedades}}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Lo Sentimos</h5>
+                        <p class="card-text">
+                            No hay Elementos para mostrar
+                        </p>
+                    </div>
+                </div>
+            {{/propiedades}}
+
+            {{! <div class="row mt-5">
                 <div class="col-md-12 text-center">
                     <div class="site-pagination">
                         <a href="#" class="active">1</a>
@@ -76,7 +70,7 @@
                         <a href="#">10</a>
                     </div>
                 </div>
-            </div>
+            </div> }}
 
         </div>
     </div>

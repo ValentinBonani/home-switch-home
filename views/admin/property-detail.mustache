@@ -64,7 +64,9 @@
                                 <div class="border-top">
                                     <div class="card-body">
                                         <input type="submit" formaction="/admin/edit-property/{{propiedad._id}}" value="Modificar Propiedad" class="btn btn-primary  py-2 px-4 rounded-0">
-                                        <button type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" method="delete" formaction="/delete-property/{{propiedad._id}}">Eliminar Propiedad</button>
+                                        <button type="button" class="btn btn-danger ml-5 py-2 px-4 rounded-0" data-toggle="modal" data-target="#deleteModal">
+                                            Eliminar
+                                        </button>
                                     </div>
 
                                 </div>
@@ -81,6 +83,28 @@
         <!-- ============================================================== -->
     </div>
     {{> admin/template/scripts }}
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Está Seguro que desea eliminar la propiedad?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Los datos de la propiedad no se podrán recuperar una vez borrados.
+            </div>
+            <div class="modal-footer">
+            <form action="" method="get" class="form-horizontal">
+                <button  type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" method="delete" formaction="/delete-property/{{propiedad._id}}">Eliminar Propiedad</button>
+                <button type="button" class="btn btn-secondary px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Cancelar</button>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

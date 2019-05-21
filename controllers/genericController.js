@@ -46,8 +46,8 @@ module.exports = function GenericController(mongoose, modelName, listOptions) {
         const modelDTO = (normalizer && normalizer.normalize) ? normalizer.normalize(req.body) : req.body;
         Model.create(modelDTO)
             .then((model) => {
-                res.response200(model, `${modelName} '${model._id}' successfully created.`);
-                // res.redirect("/admin/home");
+                //res.response200(model, `${modelName} '${model._id}' successfully created.`);
+                res.redirect("/admin/home");
             })
             .catch((err) => {
                 res.response500(err, `${modelName} couldn't be created!`);
@@ -72,7 +72,7 @@ module.exports = function GenericController(mongoose, modelName, listOptions) {
         Model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true })
             .then((model) => {
                 if (model) {
-                    res.response200(model, `${modelName} '${model._id}' successfully updated.`);
+                    res.redirect("/admin/home");
                 } else {
                     res.response404(`${modelName} not found!`);
                 }

@@ -65,20 +65,16 @@
                     </div>
                 </div>
             {{/propiedadesConSubasta}}
-
-            <div class="row mt-5">
-                <div class="col-md-12 text-center">
-                    <div class="site-pagination">
-                        <a href="#" class="active">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <span>...</span>
-                        <a href="#">10</a>
+            {{^propiedadesConSubasta}}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Lo Sentimos</h5>
+                        <p class="card-text">
+                            No hay Elementos para mostrar
+                        </p>
                     </div>
                 </div>
-            </div>
+            {{/propiedadesConSubasta}}
 
         </div>
     </div>
