@@ -8,6 +8,7 @@ const PujaSchema = new mongoose.Schema({
         ref: 'Usuario'
     },
     monto: { type: String, required: true },
+    fecha: { type:String, required:true }
 });
 
 const SubastaSchema = new mongoose.Schema({

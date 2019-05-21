@@ -5,6 +5,7 @@ const {
     AuthenticateController,
     PropiedadesController,
     PaginasAdminController,
+    SubastasController
 } = require("./controllers");
 
 const auth = require("./middleware/auth");
@@ -31,6 +32,7 @@ module.exports = (app, router) => {
     const authenticateController = AuthenticateController(mongoose);
     const propiedadesController = PropiedadesController(mongoose);
     const paginasAdminController = PaginasAdminController(mongoose);
+    const subastasController = SubastasController(mongoose);
 
     const controllers = [
         { basePath: "/usuarios", controller: usuariosController },
@@ -49,11 +51,17 @@ module.exports = (app, router) => {
     router.route("/login")
         .get(paginasController.renderLogin);
     router.route("/property-list")
-        .get(auth, paginasController.renderSubastaList);
+        .get(auth, paginasController.renderPropertyList);
     router.route("/subasta-list")
         .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
         .post(authenticateController.authenticate);
+    router.route("/subasta-detail/:id")
+        .get(auth, paginasController.renderSubastaDetail);
+    router.route("/pujar/:id")
+        .post(auth, subastasController.pujarSubasta);
+
+
 
     router.route("/admin")
         .get(paginasAdminController.renderLoginAdmin);
@@ -72,8 +80,10 @@ module.exports = (app, router) => {
     router.get('/delete-property/:id', authAdmin, paginasAdminController.deleteProperty);
     router.get('/admin/subastas-list', authAdmin, paginasAdminController.renderSubastasList);
     router.get('/admin/active-subastas-list', authAdmin, paginasAdminController.renderActiveSubastasList);
-    router.get('/admin/subasta/:id', authAdmin, paginasAdminController.renderSubastasDetail);
+    router.get('/admin/subasta/:id', authAdmin, paginasAdminController.renderSubastaDetail);
+    router.get('/admin/subasta-detail/:id', authAdmin, paginasAdminController.renderSubastaActivaDetail);
     router.post('/admin/activate-subasta/:id', authAdmin, paginasAdminController.activateSubasta);
+    router.post('/admin/close-subasta/:id', authAdmin, paginasAdminController.closeSubasta);
 
     return router;
 };

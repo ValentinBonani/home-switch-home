@@ -2,6 +2,10 @@ module.exports = (mongoose) => {
     const Propiedad = mongoose.model("Propiedad");
     const reques = require('request');
 
+    function esSubasta(semana) {
+        return semana.tipo === "Subasta"
+    }
+
 
     function renderLoginAdmin(request, response) {
         response.render("admin/login")
@@ -35,11 +39,8 @@ module.exports = (mongoose) => {
         semanasConSubasta = []
         propiedades = await Propiedad.find({})
         propiedadesConSubasta = propiedades.filter((propiedad) => {
-            semana = propiedad.semanas.find((semana) => {
-                return semana.tipo === "Subasta"
-            })
+            semana = propiedad.semanas.find(esSubasta)
             if (semana && !semana.subasta.habilitada) {
-                console.log(semana);
                 semanasConSubasta.push(semana);
                 return semana
             }
@@ -48,7 +49,8 @@ module.exports = (mongoose) => {
         response.render("admin/subastas-list", {
             propiedadesConSubasta,
             semanasConSubasta,
-            title: "Posibles Subastas"
+            title: "Posibles Subastas",
+            goTo: "subasta",
 
         });
     }
@@ -57,11 +59,8 @@ module.exports = (mongoose) => {
         semanasConSubasta = []
         propiedades = await Propiedad.find({})
         propiedadesConSubasta = propiedades.filter((propiedad) => {
-            semana = propiedad.semanas.find((semana) => {
-                return semana.tipo === "Subasta"
-            })
+            semana = propiedad.semanas.find(esSubasta)
             if (semana && semana.subasta.habilitada) {
-                console.log(semana);
                 semanasConSubasta.push(semana);
                 return semana
             }
@@ -70,15 +69,15 @@ module.exports = (mongoose) => {
         response.render("admin/subastas-list", {
             propiedadesConSubasta,
             semanasConSubasta,
-            title: "Subastas Activas"
+            title: "Subastas Activas",
+            goTo: "subasta-detail",
+
         });
     }
 
-    async function renderSubastasDetail(request, response) {
+    async function renderSubastaDetail(request, response) {
         propiedad = await Propiedad.findOne({ _id: request.params.id })
-        subasta = propiedad.semanas.find((semana) => {
-            return semana.tipo === "Subasta"
-        })
+        subasta = propiedad.semanas.find(esSubasta)
         response.render("admin/subasta-detail", {
             propiedad,
             subasta
@@ -87,10 +86,7 @@ module.exports = (mongoose) => {
 
     async function activateSubasta(request, response) {
         propiedad = await Propiedad.findOne({ _id: request.params.id })
-        semana = propiedad.semanas.find((semana) => {
-            return semana.tipo === "Subasta"
-        })
-        console.log(request.body)
+        semana = propiedad.semanas.find(esSubasta)
         semana.subasta.montoMinimo = request.body.montoMinimo
         semana.subasta.habilitada = true;
         propiedad.semanas[semana.numeroSemana - 1] = semana;
@@ -98,6 +94,26 @@ module.exports = (mongoose) => {
         return response.redirect("/admin/subastas-list");
     }
 
+    async function closeSubasta(request, response) {
+        propiedad = await Propiedad.findOne({ _id: request.params.id })
+        semana = propiedad.semanas.find(esSubasta)
+        semana.tipo = "Reservada";
+        semana.subasta.habilitada = false;
+        propiedad.semanas[semana.numeroSemana - 1] = semana;
+        propiedad.save();
+        return response.redirect("/admin/subastas-list");
+    }
+
+    async function renderSubastaActivaDetail (request, response) {
+        propiedad = await Propiedad.findOne({ _id: request.params.id })
+        semana = propiedad.semanas.find(esSubasta);
+        pujas = semana.subasta.pujas;
+        response.render("admin/subasta-activa-detail", {
+            propiedad,
+            semana,
+            pujas
+        });
+    }
 
 
     return {
@@ -109,7 +125,9 @@ module.exports = (mongoose) => {
         deleteProperty,
         renderSubastasList,
         activateSubasta,
-        renderSubastasDetail,
-        renderActiveSubastasList
+        renderSubastaDetail,
+        renderSubastaActivaDetail,
+        renderActiveSubastasList,
+        closeSubasta
     }
 }

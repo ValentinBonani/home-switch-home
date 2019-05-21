@@ -12,6 +12,20 @@ module.exports = (mongoose) => {
     ]
     const Propiedad = mongoose.model("Propiedad");
 
+    function determinePrice(subasta){
+        console.log(subasta)
+        if(subasta.pujas.length === 0){
+            return subasta.montoMinimo
+        }
+        else{
+            return subasta.pujas[0].monto;
+        }
+    }
+
+    function esSubasta(semana) {
+        return semana.tipo === "Subasta"
+    }
+
     function getUsuario(userId) {
         const promise = new Promise((resolve, reject) => {
             console.log(userId)
@@ -68,9 +82,7 @@ module.exports = (mongoose) => {
         semanasConSubasta = []
         propiedades = await Propiedad.find({})
         propiedadesConSubasta = propiedades.filter((propiedad) => {
-            semana = propiedad.semanas.find((semana) => {
-                return semana.tipo === "Subasta"
-            })
+            semana = propiedad.semanas.find((esSubasta))
             if (semana && semana.subasta.habilitada) {
                 semanasConSubasta.push(semana);
                 return semana
@@ -84,11 +96,23 @@ module.exports = (mongoose) => {
         });
     }
 
+    async function renderSubastaDetail(request, response) {
+        propiedad = await Propiedad.findOne({ _id: request.params.id });
+        semana = propiedad.semanas.find(esSubasta);
+        montoActual = determinePrice(semana.subasta);
+        response.render("subasta-detail", {
+            propiedad,
+            semana,
+            montoActual
+        });
+    }
+
     return {
         renderHome,
         renderContact,
         renderLogin,
         renderPropertyList,
-        renderSubastaList
+        renderSubastaList,
+        renderSubastaDetail
     }
 }
