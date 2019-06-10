@@ -10,7 +10,9 @@ const UsuarioSchema = new mongoose.Schema({
   codigoSeguridadTarjeta: { type: String, required: true },
   numeroTarjeta: { type: String, required: true },
   password: { type: String, required: true },
-  creditos: { type: Number, required:true, default:2 }
+  creditos: { type: Number, required:true, default:2 },
+  tipo: { type: Number, required:true, default:0 },
+  fechaDeIngreso: { type: Date, required:true, default:new Date()},
 });
 
 UsuarioSchema.pre('save', function(next) {

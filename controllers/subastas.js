@@ -20,9 +20,9 @@ module.exports = (mongoose) => {
 
     function validateAmount (amount, subasta) {
         if(subasta.pujas.length === 0){
-            return amount > subasta.montoMinimo;
+            return parseInt(amount) > parseInt(subasta.montoMinimo);
         } else {
-            return amount > subasta.pujas[0].monto;
+            return parseInt(amount) > parseInt(subasta.pujas[0].monto);
         }
     }
 

@@ -60,6 +60,12 @@ module.exports = (app, router) => {
         .get(auth, paginasController.renderSubastaDetail);
     router.route("/pujar/:id")
         .post(auth, subastasController.pujarSubasta);
+    router.route("/profile")
+        .get(auth, paginasController.renderProfile);
+    router.route("/edit-profile")
+        .get(auth, paginasController.renderEditProfile);
+    router.route("/edit-profile/:id")
+        .post(auth, paginasController.editProfile);
 
 
 

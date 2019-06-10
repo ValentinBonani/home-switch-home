@@ -69,8 +69,10 @@ module.exports = function GenericController(mongoose, modelName, listOptions) {
     }
 
     function update(req, res) {
+        console.log(req.body)
         Model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true })
             .then((model) => {
+                console.log(model)
                 if (model) {
                     res.redirect("/admin/home");
                 } else {

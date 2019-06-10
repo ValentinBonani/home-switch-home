@@ -1,4 +1,7 @@
 module.exports = (mongoose) => {
+
+    const reques = require('request');
+
     const types = [
         { nombre: "Departamento" },
         { nombre: "Cabaña" },
@@ -45,7 +48,7 @@ module.exports = (mongoose) => {
             response.send("error");
         }
         response.render("index", {
-            usuario: usuario.nombreCompleto,
+            usuario,
             types,
             ventas
         });
@@ -55,7 +58,7 @@ module.exports = (mongoose) => {
         usuario = await getUsuario(request.session.userId);
         propiedades = await Propiedad.find({})
         response.render("property-list", {
-            usuario: usuario.nombreCompleto,
+            usuario,
             types,
             ventas,
             propiedades
@@ -69,9 +72,34 @@ module.exports = (mongoose) => {
             response.send("error");
         }
         response.render("contact", {
-            usuario: usuario.nombreCompleto,
+            usuario,
         });
     }
+
+    async function renderProfile(request, response) {
+        try {
+            usuario = await getUsuario(request.session.userId);
+        } catch (err) {
+            response.send("error");
+        }
+        response.render("profile", {usuario});
+    }
+
+    async function renderEditProfile(request, response) {
+        try {
+            usuario = await getUsuario(request.session.userId);
+        } catch (err) {
+            response.send("error");
+        }
+        response.render("edit-profile", {usuario});
+    }
+
+    async function editProfile(request, response) {
+        console.log(request.body)
+        reques.post('http://localhost:8080/usuarios/' + request.params.id, {body:request.body, json:true});
+        return response.redirect("/profile");
+    }
+
 
     async function renderLogin(request, response) {
         response.render("login", {});
@@ -113,6 +141,9 @@ module.exports = (mongoose) => {
         renderLogin,
         renderPropertyList,
         renderSubastaList,
-        renderSubastaDetail
+        renderSubastaDetail,
+        renderProfile,
+        renderEditProfile,
+        editProfile
     }
 }
