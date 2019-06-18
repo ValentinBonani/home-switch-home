@@ -15,12 +15,11 @@ module.exports = (mongoose) => {
     ]
     const Propiedad = mongoose.model("Propiedad");
 
-    function determinePrice(subasta){
+    function determinePrice(subasta) {
         console.log(subasta)
-        if(subasta.pujas.length === 0){
+        if (subasta.pujas.length === 0) {
             return subasta.montoMinimo
-        }
-        else{
+        } else {
             return subasta.pujas[0].monto;
         }
     }
@@ -41,18 +40,18 @@ module.exports = (mongoose) => {
     }
 
     async function renderHome(request, response) {
-        
+
         let usuario = await getUsuario(request.session.userId);
         let subasta = null;
         let propiedad = null;
-        if(!usuario){
+        if (!usuario) {
             let subastas = await getSubastas();
-            if(subastas.length >= 1)
-                subasta = subastas[Math.floor( Math.random() * subastas.length)]
+            if (subastas.length >= 1)
+                subasta = subastas[Math.floor(Math.random() * subastas.length)]
             let propiedades = await Propiedad.find({})
-            if(propiedades.length >= 1)
-                propiedad = propiedades[Math.floor( Math.random() * propiedades.length)]
-            
+            if (propiedades.length >= 1)
+                propiedad = propiedades[Math.floor(Math.random() * propiedades.length)]
+
             console.log(subasta);
 
         }
@@ -64,7 +63,8 @@ module.exports = (mongoose) => {
             propiedad
         });
     }
-    function maxWeeks (desde,hasta,semanas) {
+
+    function maxWeeks(desde, hasta, semanas) {
         return (parseInt(hasta) - parseInt(desde)) < semanas;
     }
 
@@ -72,25 +72,28 @@ module.exports = (mongoose) => {
         usuario = await getUsuario(request.session.userId);
         let propiedades = [];
 
-        
+
         if (request.body.direccion || (request.body.desde && request.body.hasta) && maxWeeks(request.body.desde, request.body.hasta, 8)) {
-            
+
             let allPropiedades = await Propiedad.find({});
             propiedades = allPropiedades
-            if((request.body.desde && request.body.hasta)){
-                propiedades = allPropiedades.filter( (propiedad) => {
+            if ((request.body.desde && request.body.hasta)) {
+                propiedades = allPropiedades.filter((propiedad) => {
                     let propiedadConDisponible = propiedad.semanas.find((semana) => {
                         return semana.tipo === "Disponible" && semana.numeroSemana >= parseInt(request.body.desde) && semana.numeroSemana <= parseInt(request.body.hasta)
                     })
                     return propiedadConDisponible
                 })
             }
-            if(request.body.direccion){
+            if (request.body.direccion && maxWeeks(request.body.desde, request.body.hasta, 8)) {
                 propiedades = propiedades.filter(propiedad => {
                     return propiedad.ciudad.toLowerCase().includes(request.body.direccion.toLowerCase()) ||
-                    propiedad.provincia.toLowerCase().includes(request.body.direccion.toLowerCase()) ||
-                    propiedad.pais.toLowerCase().includes(request.body.direccion.toLowerCase())
+                        propiedad.provincia.toLowerCase().includes(request.body.direccion.toLowerCase()) ||
+                        propiedad.pais.toLowerCase().includes(request.body.direccion.toLowerCase())
                 })
+            }
+            if (request.body.direccion && request.body.desde && request.body.hasta && !maxWeeks(request.body.desde, request.body.hasta, 8)) {
+                propiedades = [];
             }
         }
 
@@ -102,11 +105,11 @@ module.exports = (mongoose) => {
         });
     }
 
-   
+
     async function renderPropertyList(request, response) {
         usuario = await getUsuario(request.session.userId);
         propiedades = await Propiedad.find({})
-        
+
         response.render("property-list", {
             usuario,
             types,
@@ -132,7 +135,7 @@ module.exports = (mongoose) => {
         } catch (err) {
             response.send("error");
         }
-        response.render("profile", {usuario});
+        response.render("profile", { usuario });
     }
 
     async function renderEditProfile(request, response) {
@@ -141,12 +144,12 @@ module.exports = (mongoose) => {
         } catch (err) {
             response.send("error");
         }
-        response.render("edit-profile", {usuario});
+        response.render("edit-profile", { usuario });
     }
 
     async function editProfile(request, response) {
         console.log(request.body)
-        reques.post('http://localhost:8080/usuarios/' + request.params.id, {body:request.body, json:true});
+        reques.post('http://localhost:8080/usuarios/' + request.params.id, { body: request.body, json: true });
         return response.redirect("/profile");
     }
 
