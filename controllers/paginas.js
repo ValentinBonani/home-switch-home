@@ -41,22 +41,59 @@ module.exports = (mongoose) => {
     }
 
     async function renderHome(request, response) {
-        var usuario;
-        try {
-            usuario = await getUsuario(request.session.userId);
-        } catch (err) {
-            response.send("error");
+        
+        let usuario = await getUsuario(request.session.userId);
+        let subasta = null;
+        let propiedad = null;
+        if(!usuario){
+            let subastas = await getSubastas();
+            if(subastas.length >= 1)
+                subasta = subastas[Math.floor( Math.random() * subastas.length)]
+            let propiedades = await Propiedad.find({})
+            if(propiedades.length >= 1)
+                propiedad = propiedades[Math.floor( Math.random() * propiedades.length)]
+            
+            console.log(subasta);
+
         }
         response.render("index", {
             usuario,
             types,
-            ventas
+            ventas,
+            subasta,
+            propiedad
         });
     }
 
+    async function renderPropertyFilter(request, response) {
+        usuario = await getUsuario(request.session.userId);
+        let propiedades = []
+        
+        if (request.body.desde && request.body.hasta) {
+            console.log(request.body.desde);
+            console.log(request.body.hasta);
+            let allPropiedades = await Propiedad.find({});
+            propiedades = allPropiedades.filter( (propiedad) => {
+                let propiedadConDisponible = propiedad.semanas.find((semana) => {
+                    return semana.tipo === "Disponible" && semana.numeroSemana >= request.body.desde && semana.numeroSemana <= request.body.hasta
+                })
+                return propiedadConDisponible
+            })
+        }
+
+        response.render("property-list", {
+            usuario,
+            types,
+            ventas,
+            propiedades
+        });
+    }
+
+   
     async function renderPropertyList(request, response) {
         usuario = await getUsuario(request.session.userId);
         propiedades = await Propiedad.find({})
+        
         response.render("property-list", {
             usuario,
             types,
@@ -101,15 +138,22 @@ module.exports = (mongoose) => {
     }
 
 
+    async function changeState(request, response) {
+        usuario = await getUsuario(request.session.userId);
+        usuario.pedido = true;
+        usuario.save();
+        return response.redirect("/profile");
+    }
+
+
     async function renderLogin(request, response) {
         response.render("login", {});
     }
 
-
-    async function renderSubastaList(request, response) {
-        semanasConSubasta = []
-        propiedades = await Propiedad.find({})
-        propiedadesConSubasta = propiedades.filter((propiedad) => {
+    async function getSubastas() {
+        let semanasConSubasta = [];
+        let propiedades = await Propiedad.find({})
+        return propiedades.filter((propiedad) => {
             semana = propiedad.semanas.find((esSubasta))
             if (semana && semana.subasta.habilitada) {
                 semanasConSubasta.push(semana);
@@ -117,6 +161,12 @@ module.exports = (mongoose) => {
             }
             return false
         })
+    }
+
+
+    async function renderSubastaList(request, response) {
+        let semanasConSubasta = []
+        semanasConSubasta = getSubastas();
         response.render("subasta-list", {
             propiedadesConSubasta,
             semanasConSubasta,
@@ -144,6 +194,8 @@ module.exports = (mongoose) => {
         renderSubastaDetail,
         renderProfile,
         renderEditProfile,
-        editProfile
+        editProfile,
+        changeState,
+        renderPropertyFilter
     }
 }

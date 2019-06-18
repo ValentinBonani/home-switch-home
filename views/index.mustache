@@ -50,46 +50,48 @@
 
     <div class="site-section site-section-sm bg-light">
       <div class="container">
-      
-        <div class="row mb-5">
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="property-details" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-success">Hot Sale</span>
-                </div>
-                <img src="images/img_1.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                
-                <h2 class="property-title"><a href="property-details.html">625 S. Berendo St</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 625 S. Berendo St Unit 607 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                
-
-              </div>
-            </div>
-          </div>
+        <div class="row">
+        {{#propiedad}}
 
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-entry h-100">
               <a href="property-details.html" class="property-thumbnail">
                 <div class="offer-type-wrap">
-                  <span class="offer-type bg-success">Hot Sale</span>
+                  <span class="offer-type bg-success">Propiedad</span>
                 </div>
-                <img src="images/img_2.jpg" alt="Image" class="img-fluid">
+                <img src="{{imagen}}" alt="Image" class="img-fluid">
               </a>
               <div class="p-4 property-body">
-                <h2 class="property-title"><a href="property-details.html">871 Crenshaw Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 1 New York Ave, Warners Bay, NSW 2282</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
+                <h2 class="property-title"><a href="property-details.html">{{direccion}}, {{ciudad}}, {{provincia}}</a></h2>
+                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span>{{descripcion}}</span>
                 
 
               </div>
             </div>
           </div>
+          {{/propiedad}}
+
+        {{#subasta}}
 
           <div class="col-md-6 col-lg-4 mb-4">
+            <div class="property-entry h-100">
+              <a href="property-details.html" class="property-thumbnail">
+                <div class="offer-type-wrap">
+                  <span class="offer-type bg-danger">Subasta</span>
+                </div>
+                <img src="{{imagen}}" alt="Image" class="img-fluid">
+              </a>
+              <div class="p-4 property-body">
+                <h2 class="property-title"><a href="property-details.html">{{direccion}}, {{ciudad}}, {{provincia}}</a></h2>
+                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span>{{descripcion}}</span>
+              </div>
+            </div>
+          </div>
+          {{/subasta}}
+          </div>
+
+
+          {{! <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-entry h-100">
               <a href="property-details.html" class="property-thumbnail">
                 <div class="offer-type-wrap">
@@ -220,9 +222,9 @@
 
               </div>
             </div>
-          </div>
+          </div> }}
         </div>
-        <div class="row">
+       {{!  <div class="row">
           <div class="col-md-12 text-center">
             <div class="site-pagination">
               <a href="#" class="active">1</a>
@@ -234,7 +236,7 @@
               <a href="#">10</a>
             </div>
           </div>  
-        </div>
+        </div> }}
         
       </div>
     </div>

@@ -698,7 +698,9 @@ pre {
 
 .offset-11 {
   margin-left: 91.66667%; }
-
+.cursor-pointer{
+  cursor: pointer;
+}
 @media (min-width: 576px) {
   .col-sm {
     -ms-flex-preferred-size: 0;

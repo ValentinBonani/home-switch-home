@@ -1,5 +1,6 @@
 module.exports = (mongoose) => {
     const Propiedad = mongoose.model("Propiedad");
+    const Usuario = mongoose.model("Usuario");
     const reques = require('request');
 
     function esSubasta(semana) {
@@ -26,8 +27,20 @@ module.exports = (mongoose) => {
     }
 
     async function renderPropertyDetails(request, response) {
-        propiedad = await Propiedad.findOne({ _id: request.params.id })
-        response.render("admin/property-detail", { propiedad });
+        canNotErase = false;
+        propiedad = await Propiedad.findOne({ _id: request.params.id });
+        reserva = propiedad.semanas.find( semana => semana.tipo === "Reservada");
+        if(reserva) {
+            canNotErase = true;
+        }
+        semana = propiedad.semanas.find(esSubasta)
+        if (semana && semana.subasta.habilitada) {
+            canNotErase = true;
+        }
+        response.render("admin/property-detail", { 
+            propiedad,
+            canNotErase
+        });
     }
 
     function deleteProperty(request, response) {
@@ -115,6 +128,37 @@ module.exports = (mongoose) => {
         });
     }
 
+    filterUsers = (text, render) => {
+        return render(text);
+    }
+
+    async function renderUserList (request, response) {
+        usuarios = await Usuario.find({});
+
+        response.render("admin/user-list", {
+            usuarios,
+            filterUsers
+        });
+    }
+
+    async function renderUserDetails (request, response) {
+        usuario = await Usuario.findOne({_id: request.params.id});
+        response.render("admin/user-detail", {
+            usuario
+        });
+    }
+
+    async function changeUserState (request, response) {
+        usuario = await Usuario.findOne({_id: request.params.id});
+        if (usuario.pedido) {
+            usuario.pedido = false;
+            if (usuario.tipo === 0) usuario.tipo = 1;
+            else usuario.tipo = 0;
+            usuario.save();
+        }
+        return response.redirect("/admin/user-list");
+    }
+
 
     return {
         renderAdminHome,
@@ -128,6 +172,9 @@ module.exports = (mongoose) => {
         renderSubastaDetail,
         renderSubastaActivaDetail,
         renderActiveSubastasList,
-        closeSubasta
+        closeSubasta,
+        renderUserList,
+        renderUserDetails,
+        changeUserState
     }
 }

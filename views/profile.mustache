@@ -64,7 +64,7 @@
                             <div class="border-top">
                                 <div class="card-body d-flex justify-content-between">
                                     <a class="btn btn-primary" href="/edit-profile" role="button">Editar Perfil</a>
-                                    <a class="btn btn-primary"  data-toggle="modal" data-target="#deleteModal" role="button">Cambiar Estado</a>
+                                    <a class="btn btn-primary text-white"  data-toggle="modal" data-target="#changeStateModal" role="button">Cambiar Estado</a>
                                 </div>
                             </div>
                         </form>
@@ -80,7 +80,7 @@
 
     {{> template/scripts}} 
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="changeStateModal" tabindex="-1" role="dialog" aria-labelledby="changeStateModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -99,7 +99,10 @@
             </div>
             <div class="modal-footer">
             <form action="" method="get" class="form-horizontal">
-                <button  type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" method="delete" formaction="/delete-property/{{propiedad._id}}">Eliminar Propiedad</button>
+                <button  type="submit" class="btn btn-success ml-5 py-2 px-4 rounded-0" method="delete" formaction="/change-state/{{usuario._id}}">
+                {{#usuario.tipo}}Cambiar a estandar{{/usuario.tipo}}
+                {{^usuario.tipo}}Cambiar a premium{{/usuario.tipo}}
+                </button>
                 <button type="button" class="btn btn-secondary px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Cancelar</button>
             </form>
             </div>

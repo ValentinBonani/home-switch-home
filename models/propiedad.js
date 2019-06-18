@@ -58,7 +58,28 @@ function mapSemanas(propiedad, index, arr) {
             pujas: []
         }
     }
+
+    semanaActual = moment().week();
+    console.log(semanaActual)
+
+    semanaHotsale = determineHotsale();
+
+    if( ((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale))  )
+        newSemana.tipo = 'Hotsale'
+    if( (semanaHotsale < semanaActual) ){
+        if(newSemana.numeroSemana >= semanaActual || newSemana.numeroSemana <= semanaHotsale){
+            newSemana.tipo = 'Hotsale'
+        }
+    }
     return newSemana;
+}
+
+function determineHotsale() {
+    semanaActual = moment().week();
+    semanaHotsale = semanaActual + 23;
+        if (semanaHotsale > 50)
+        semanaHotsale -= 50;
+    return semanaHotsale
 }
 
 function determineSubasta() {

@@ -43,15 +43,17 @@ module.exports = (app, router) => {
     mapGenericControllerRoutes(controllers, router);
 
     router.route("/home")
-        .get(auth, paginasController.renderHome);
+        .get(paginasController.renderHome);
     router.route("/")
-        .get(auth, paginasController.renderHome);
+        .get(paginasController.renderHome);
     router.route("/contact")
         .get(auth, paginasController.renderContact);
     router.route("/login")
         .get(paginasController.renderLogin);
     router.route("/property-list")
         .get(auth, paginasController.renderPropertyList);
+    router.route("/property-filter")
+        .post(paginasController.renderPropertyFilter);
     router.route("/subasta-list")
         .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
@@ -66,6 +68,8 @@ module.exports = (app, router) => {
         .get(auth, paginasController.renderEditProfile);
     router.route("/edit-profile/:id")
         .post(auth, paginasController.editProfile);
+    router.route("/change-state/:id")
+        .get(auth, paginasController.changeState);
 
 
 
@@ -73,12 +77,18 @@ module.exports = (app, router) => {
         .get(paginasAdminController.renderLoginAdmin);
     router.route("/admin/home")
         .get(authAdmin, paginasAdminController.renderAdminHome);
+    router.route("/admin/user-list")
+        .get(authAdmin, paginasAdminController.renderUserList);
     router.route("/admin/authenticate")
         .post(authenticateController.authenticateAdmin);
     router.route("/admin/add-property")
         .get(authAdmin, paginasAdminController.renderAddProperty);
     router.route("/admin/edit-property/:id")
         .get(paginasAdminController.renderEditProperty);
+    router.route("/admin/user-details/:id")
+        .get(paginasAdminController.renderUserDetails);
+    router.route("/admin/accept-petition/:id")
+        .get(paginasAdminController.changeUserState);
 
     router.get('/logout', authenticateController.logout);
     router.get('/logoutAdmin', authenticateController.logoutAdmin);

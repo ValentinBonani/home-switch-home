@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> admin/template/head }}
+
+<body>
+
+    {{> admin/template/header }}
+    <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Informacion del Usuario</h5>
+                                {{#usuario}}
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-8">
+                                            <div class="card">
+                                                <form method="post" class="form-horizontal">
+                                                    <div class="card-body">
+                                                        <div class="form-group row">
+                                                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Nombre</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required type="text" name="nombreCompleto" class="form-control" id="fname" value="{{nombreCompleto}}" placeholder="Ingrese Nombre">
+                                                            </div>
+                                                        </div>
+                                                            <div class="form-group row">
+                                                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Email</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required type="text" name="email" class="form-control" id="fname" value="{{email}}" placeholder="Ingrese Email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">DNI</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required name="dni" type="text" class="form-control" id="lname" value="{{dni}}" placeholder="Ingrese DNI">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">Numero De Tarjeta</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required type="text" name="numeroTarjeta" class="form-control" id="lname" value="{{numeroTarjeta}}" placeholder="Ingrese Numero De Tarjeta">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="email1" class="col-sm-3 text-right control-label col-form-label">Fecha Caducidad De Tarjeta</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required type="text" name="fechaCadTarjeta" class="form-control" id="email1" value="{{fechaCadTarjeta}}" placeholder="Ingrese Fecha Caducidad">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Codigo Seguridad De Tarjeta</label>
+                                                            <div class="col-sm-9">
+                                                                <input disabled required type="text" name="codigoSeguridadTarjeta" class="form-control" id="cono1" value="{{codigoSeguridadTarjeta}}" placeholder="Ingrese codigo de Seguridad">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="border-top">
+                                                        <div class="card-body d-flex justify-content-between">
+                                                        {{#pedido}}
+                                                            <label style="align-self: center;" >Este usuario posee una peticion para cambio de estado</label>
+                                                            <a class="btn btn-primary" href="/admin/accept-petition/{{_id}}" role="button">Aceptar Peticion</a>
+                                                        {{/pedido}}
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {{/usuario}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{> admin/template/footer }}
+        </div>
+    </div>
+    {{> admin/template/scripts }}
+</body>
+
+</html>
