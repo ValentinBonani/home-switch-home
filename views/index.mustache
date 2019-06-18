@@ -55,14 +55,14 @@
 
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-entry h-100">
-              <a href="property-details.html" class="property-thumbnail">
+              <a href="/login" class="property-thumbnail">
                 <div class="offer-type-wrap">
                   <span class="offer-type bg-success">Propiedad</span>
                 </div>
                 <img src="{{imagen}}" alt="Image" class="img-fluid">
               </a>
               <div class="p-4 property-body">
-                <h2 class="property-title"><a href="property-details.html">{{direccion}}, {{ciudad}}, {{provincia}}</a></h2>
+                <h2 class="property-title"><a href="/property-details">{{direccion}}, {{ciudad}}, {{provincia}}</a></h2>
                 <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span>{{descripcion}}</span>
                 
 
@@ -75,7 +75,7 @@
 
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-entry h-100">
-              <a href="property-details.html" class="property-thumbnail">
+              <a href="/subasta-detail/{{_id}}" class="property-thumbnail">
                 <div class="offer-type-wrap">
                   <span class="offer-type bg-danger">Subasta</span>
                 </div>
@@ -280,9 +280,37 @@
     
     {{> template/footer}}
 
-  </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Verificacion de edad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Es usted mayor de 18 años?
+            </div>
+            <div class="modal-footer">
+            <form action="" method="get" class="form-horizontal">
+                <button type="button" class="btn btn-success px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Si</button>
+                <button  type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" formaction="https://google.com">No</button>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
 
   {{> template/scripts}}    
-  
+  {{^usuario}}
+    <script type="text/javascript">
+      $(window).on('load',function(){
+          $('#myModal').modal('show');
+      });
+    </script> 
+  {{/usuario}}
   </body>
 </html>

@@ -8,7 +8,7 @@ const PujaSchema = new mongoose.Schema({
         ref: 'Usuario'
     },
     monto: { type: String, required: true },
-    fecha: { type:String, required:true }
+    fecha: { type: String, required: true }
 });
 
 const SubastaSchema = new mongoose.Schema({
@@ -64,10 +64,10 @@ function mapSemanas(propiedad, index, arr) {
 
     semanaHotsale = determineHotsale();
 
-    if( ((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale))  )
+    if (((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale)))
         newSemana.tipo = 'Hotsale'
-    if( (semanaHotsale < semanaActual) ){
-        if(newSemana.numeroSemana >= semanaActual || newSemana.numeroSemana <= semanaHotsale){
+    if ((semanaHotsale < semanaActual)) {
+        if (newSemana.numeroSemana >= semanaActual || newSemana.numeroSemana <= semanaHotsale) {
             newSemana.tipo = 'Hotsale'
         }
     }
@@ -77,7 +77,7 @@ function mapSemanas(propiedad, index, arr) {
 function determineHotsale() {
     semanaActual = moment().week();
     semanaHotsale = semanaActual + 23;
-        if (semanaHotsale > 50)
+    if (semanaHotsale > 50)
         semanaHotsale -= 50;
     return semanaHotsale
 }
