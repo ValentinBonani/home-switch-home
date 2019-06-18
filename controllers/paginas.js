@@ -64,21 +64,34 @@ module.exports = (mongoose) => {
             propiedad
         });
     }
+    function maxWeeks (desde,hasta,semanas) {
+        return (parseInt(hasta) - parseInt(desde)) < semanas;
+    }
 
     async function renderPropertyFilter(request, response) {
         usuario = await getUsuario(request.session.userId);
-        let propiedades = []
+        let propiedades = [];
+
         
-        if (request.body.desde && request.body.hasta) {
-            console.log(request.body.desde);
-            console.log(request.body.hasta);
+        if (request.body.direccion || (request.body.desde && request.body.hasta) && maxWeeks(request.body.desde, request.body.hasta, 8)) {
+            
             let allPropiedades = await Propiedad.find({});
-            propiedades = allPropiedades.filter( (propiedad) => {
-                let propiedadConDisponible = propiedad.semanas.find((semana) => {
-                    return semana.tipo === "Disponible" && semana.numeroSemana >= request.body.desde && semana.numeroSemana <= request.body.hasta
+            propiedades = allPropiedades
+            if((request.body.desde && request.body.hasta)){
+                propiedades = allPropiedades.filter( (propiedad) => {
+                    let propiedadConDisponible = propiedad.semanas.find((semana) => {
+                        return semana.tipo === "Disponible" && semana.numeroSemana >= parseInt(request.body.desde) && semana.numeroSemana <= parseInt(request.body.hasta)
+                    })
+                    return propiedadConDisponible
                 })
-                return propiedadConDisponible
-            })
+            }
+            if(request.body.direccion){
+                propiedades = propiedades.filter(propiedad => {
+                    return propiedad.ciudad.toLowerCase().includes(request.body.direccion.toLowerCase()) ||
+                    propiedad.provincia.toLowerCase().includes(request.body.direccion.toLowerCase()) ||
+                    propiedad.pais.toLowerCase().includes(request.body.direccion.toLowerCase())
+                })
+            }
         }
 
         response.render("property-list", {

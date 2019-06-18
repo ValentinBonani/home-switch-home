@@ -53,7 +53,7 @@ module.exports = (app, router) => {
     router.route("/property-list")
         .get(auth, paginasController.renderPropertyList);
     router.route("/property-filter")
-        .post(paginasController.renderPropertyFilter);
+        .post(auth, paginasController.renderPropertyFilter);
     router.route("/subasta-list")
         .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
