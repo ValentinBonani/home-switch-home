@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> template/head }}
+  <body>
+
+  {{> template/navbar}}
+
+  <div class="site-blocks-cover-reduced site-blocks-cover  inner-page-cover overlay reduced-overlay" style="background-image: url(images/hero_bg_2.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-10">
+          <h1 class="mb-2">Registro</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-lg-12 mb-5">
+            <form action="/register" method="post" class="p-5 bg-white border">
+               
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold">Nombre Completo</label>
+                  <input required type="text" maxlength="50" id="nombreCompleto" class="form-control" name="nombreCompleto" placeholder="Nombre Completo...">
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="email">Email</label>
+                  <input required type="email" id="email" class="form-control" name="email" placeholder="Email..." >
+                   {{#error}}
+                        <span class="text-danger">
+                            Este email ya esta en uso
+                        </span>
+                    {{/error}}
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="dni">DNI</label>
+                  <input required type="number" max="999999999" id="dni" class="form-control" name="dni" placeholder="DNI..." onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="numeroTarjeta">Numero Tarjeta</label>
+                  <input required min="1000000000000000" max="9999999999999999"  type="number" id="numeroTarjeta" class="form-control" name="numeroTarjeta" placeholder="Numero Tarjeta...">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="example-date-input" class="col-4 col-form-label font-weight-bold">Fecha de Caducidad de la Tarjeta</label>
+                <div class="col-8">
+                    <input required class="form-control" type="month" id="fechaCadTarjeta" name="fechaCadTarjeta">
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="codigoSeguridadTarjeta">Codigo de Seguridad de la Tarjeta</label>
+                  <input required maxlength="3" minLength="3" type="codigoSeguridadTarjeta" id="codigoSeguridadTarjeta" class="form-control" name="codigoSeguridadTarjeta" placeholder="Codigo de Seguridad de la Tarjeta...">
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label class="font-weight-bold" for="password">Contaseña</label>
+                  <input required type="password" id="password" class="form-control" name="password" placeholder="Contraseña...">
+                </div>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                <label class="form-check-label" for="exampleCheck1" required>Soy mayor de 18</label>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" value="Registrarse" class="btn btn-primary  py-2 px-4 rounded-0">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{> template/footer}}
+
+    </div> 
+
+    {{> template/scripts}}   
+
+  </body>
+</html>

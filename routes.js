@@ -58,6 +58,10 @@ module.exports = (app, router) => {
         .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
         .post(authenticateController.authenticate);
+    router.route("/register")
+        .get(paginasController.renderRegister);
+    router.route("/register")
+        .post(authenticateController.register);
     router.route("/subasta-detail/:id")
         .get(auth, paginasController.renderSubastaDetail);
     router.route("/pujar/:id")

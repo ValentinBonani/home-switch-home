@@ -118,6 +118,10 @@ module.exports = (mongoose) => {
         });
     }
 
+    async function renderRegister(request, response) {
+        response.render("register");
+    }
+
     async function renderContact(request, response) {
         try {
             usuario = await getUsuario(request.session.userId);
@@ -212,6 +216,7 @@ module.exports = (mongoose) => {
         renderEditProfile,
         editProfile,
         changeState,
-        renderPropertyFilter
+        renderPropertyFilter,
+        renderRegister
     }
 }
