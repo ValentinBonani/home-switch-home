@@ -60,11 +60,43 @@
                                         <input disabled required type="text" name="codigoSeguridadTarjeta" class="form-control" id="cono1" value="{{codigoSeguridadTarjeta}}" placeholder="Ingrese codigo de Seguridad">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Creditos</label>
+                                    <div class="col-sm-9">
+                                        <input disabled required type="text" name="codigoSeguridadTarjeta" class="form-control" id="cono1" value="{{creditos}}" placeholder="Creditos">
+                                    </div>
+                                </div>
+                                {{#tipo}}
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Estado</label>
+                                        <div class="col-sm-9">
+                                            <input disabled required type="text" name="codigoSeguridadTarjeta" class="form-control" id="cono1" value="Premium" placeholder="Creditos">
+                                        </div>
+                                    </div>
+                                {{/tipo}}
+                                {{^tipo}}
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Estado</label>
+                                        <div class="col-sm-9">
+                                            <input disabled required type="text" name="codigoSeguridadTarjeta" class="form-control" id="cono1" value="Standard" placeholder="Creditos">
+                                        </div>
+                                    </div>
+                                {{/tipo}}
+                                {{#pedido}}
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-12 text-right control-label col-form-label">Solicitud de Cambio de Estado enviada. En espera de aceptación.</label>
+                                    </div>
+                                {{/pedido}}
                             </div>
                             <div class="border-top">
                                 <div class="card-body d-flex justify-content-between">
                                     <a class="btn btn-primary" href="/edit-profile" role="button">Editar Perfil</a>
-                                    <a class="btn btn-primary text-white"  data-toggle="modal" data-target="#changeStateModal" role="button">Cambiar Estado</a>
+                                    {{#pedido}}
+                                        <button class="btn btn-primary text-white"  data-toggle="modal" data-target="#changeStateModal" role="button" disabled="true">Cambiar Estado</button>
+                                    {{/pedido}}
+                                    {{^pedido}}
+                                        <a class="btn btn-primary text-white"  data-toggle="modal" data-target="#changeStateModal" role="button" >Cambiar Estado</a>
+                                    {{/pedido}}
                                 </div>
                             </div>
                         </form>
