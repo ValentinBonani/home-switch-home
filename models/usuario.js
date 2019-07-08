@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
+const ReservaSchema = new mongoose.Schema({
+    propiedad: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Propiedad'
+    },
+    semana: { type: Number, required: true},
+})
+
 const UsuarioSchema = new mongoose.Schema({
     nombreCompleto: { type: String, required: true },
     email: { type: String, required: true },
@@ -13,7 +21,9 @@ const UsuarioSchema = new mongoose.Schema({
     creditos: { type: Number, required: true, default: 2 },
     tipo: { type: Number, required: true, default: 0 },
     fechaDeIngreso: { type: Date, required: true, default: new Date() },
-    pedido: { type: Boolean, required: true, default: false }
+    pedido: { type: Boolean, required: true, default: false },
+    reservas: [ReservaSchema]
+    
 });
 
 UsuarioSchema.pre('save', function(next) {

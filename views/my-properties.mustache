@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> template/head }}
+  <body>
+
+  {{> template/navbar}}
+
+  <div class="site-blocks-cover-reduced site-blocks-cover  inner-page-cover overlay reduced-overlay" style="background-image: url(images/hero_bg_2.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-10">
+          <h1 class="mb-2">Perfil</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="site-section">
+        <h2 class="h2 text-black ml-3">Todas mis reservas</h2>
+        {{#reservas}}
+            <div class="row mb-4 mx-5">
+                    <div class="col-md-12">
+                        <div class="property-entry horizontal d-lg-flex">
+
+                            <a href="#" class="property-thumbnail h-100">
+                                <img src="{{propiedad.imagen}}" alt="Image" class="img-fluid">
+                            </a>
+
+                            <div class="p-4 property-body">
+                                <h2 class="property-title"><a href="#">{{propiedad.direccion}}</a></h2>
+                                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> {{propiedad.direccion}} {{propiedad.ciudad}}, {{propiedad.provincia}} {{propiedad.pais}}</span>
+                                <strong class="property-price text-primary mb-3 d-block text-success">{{propiedad.tipo}}</strong>
+                                <p>{{propiedad.descripcion}}</p>
+                                <p>Reservada para el {{semana}}</p>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        {{/reservas}}
+        {{^reservas}}
+            No posees ninguna reserva 
+        {{/reservas}}
+    </div>
+
+    {{> template/footer}}
+
+    </div> 
+
+    {{> template/scripts}} 
+
+  </body>
+</html>

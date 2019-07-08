@@ -5,7 +5,8 @@ const {
     AuthenticateController,
     PropiedadesController,
     PaginasAdminController,
-    SubastasController
+    SubastasController,
+    ReservasController
 } = require("./controllers");
 
 const auth = require("./middleware/auth");
@@ -33,6 +34,7 @@ module.exports = (app, router) => {
     const propiedadesController = PropiedadesController(mongoose);
     const paginasAdminController = PaginasAdminController(mongoose);
     const subastasController = SubastasController(mongoose);
+    const reservasController = ReservasController(mongoose);
 
     const controllers = [
         { basePath: "/usuarios", controller: usuariosController },
@@ -54,6 +56,8 @@ module.exports = (app, router) => {
         .get(auth, paginasController.renderPropertyList);
     router.route("/property-filter")
         .post(auth, paginasController.renderPropertyFilter);
+    router.route("/property-detail/:id")
+        .get(auth, paginasController.renderPropertyDetail);
     router.route("/subasta-list")
         .get(auth, paginasController.renderSubastaList);
     router.route("/authenticate")
@@ -68,12 +72,16 @@ module.exports = (app, router) => {
         .post(auth, subastasController.pujarSubasta);
     router.route("/profile")
         .get(auth, paginasController.renderProfile);
+    router.route("/my-properties")
+        .get(auth, paginasController.renderMyProperties);
     router.route("/edit-profile")
         .get(auth, paginasController.renderEditProfile);
     router.route("/edit-profile/:id")
         .post(auth, paginasController.editProfile);
     router.route("/change-state/:id")
         .get(auth, paginasController.changeState);
+    router.route("/reserve-property/:id")
+        .post(auth, reservasController.directReserve);
 
 
 

@@ -21,6 +21,10 @@ const SemanaSchema = new mongoose.Schema({
     numeroSemana: { type: String, required: true },
     tipo: { type: String, required: true },
     subasta: SubastaSchema,
+    usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
 });
 
 const PropiedadSchema = new mongoose.Schema({

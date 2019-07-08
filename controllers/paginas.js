@@ -1,5 +1,7 @@
 module.exports = (mongoose) => {
 
+    var moment = require('moment');
+
     const reques = require('request');
 
     const types = [
@@ -32,7 +34,7 @@ module.exports = (mongoose) => {
         const promise = new Promise((resolve, reject) => {
             console.log(userId)
             const Usuario = mongoose.model("Usuario");
-            Usuario.findById(userId).then((usuario) => {
+            Usuario.findById(userId).populate().then((usuario) => {
                 resolve(usuario)
             })
         })
@@ -66,6 +68,56 @@ module.exports = (mongoose) => {
 
     function maxWeeks(desde, hasta, semanas) {
         return (parseInt(hasta) - parseInt(desde)) < semanas;
+    }
+
+    async function renderMyProperties (request, response) {
+        let usuario = await getUsuario(request.session.userId);
+        let reservas = usuario.reservas;
+        let promiseReservas = reservas.map( async (reserva) => {
+            let newReserva = {}
+            if(moment().week() > parseInt(reserva.semana) ){
+                newReserva.semana = `${moment().day("Sunday").week(reserva.semana).add(1, 'years').format("DD/MM/YY")} - ${moment().day("Saturday").week(reserva.semana).add(1, "years").format("DD/MM/YY")}`;
+                console.log(newReserva,1);
+            }
+            else{
+                newReserva.semana = `${moment().day("Sunday").week(reserva.semana).format("DD/MM/YY")} - ${moment().day("Saturday").week(reserva.semana).format("DD/MM/YY")}`;
+                console.log(newReserva,2);                
+            }
+            newReserva.propiedad = await Propiedad.findById(reserva.propiedad);
+            console.log(newReserva);
+            return newReserva;
+        })
+        reservas = await Promise.all(promiseReservas);
+        response.render("my-properties", {
+            usuario,
+            reservas
+        });
+    }
+
+    async function renderPropertyDetail (request, response) {
+        let usuario = await getUsuario(request.session.userId);
+        let propiedad = await Propiedad.findById( request.params.id); 
+        let semanas = propiedad.semanas.filter( (semana) => {
+            return semana.tipo === "Disponible";
+        })
+        let periodoSemanas = semanas.map( (semana) => {
+            if(moment().week() > parseInt(semana.numeroSemana) )
+                return {
+                    periodo:` ${moment().day("Sunday").week(semana.numeroSemana).add(1, 'years').format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).add(1, "years").format("DD/MM/YY")}`,
+                    numeroSemana:semana.numeroSemana
+                }
+            else
+                return {
+                    periodo:` ${moment().day("Sunday").week(semana.numeroSemana).format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).format("DD/MM/YY")}`,
+                    numeroSemana:semana.numeroSemana
+                }
+        })
+        response.render("property-details", {
+            propiedad,
+            semanas,
+            periodoSemanas,
+            usuario
+        });
     }
 
     async function renderPropertyFilter(request, response) {
@@ -217,6 +269,8 @@ module.exports = (mongoose) => {
         editProfile,
         changeState,
         renderPropertyFilter,
-        renderRegister
+        renderRegister,
+        renderPropertyDetail,
+        renderMyProperties
     }
 }
