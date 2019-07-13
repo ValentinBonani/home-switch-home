@@ -7,6 +7,10 @@ module.exports = (mongoose) => {
         return semana.tipo === "Subasta"
     }
 
+    function esHotsale(semana) {
+        return semana.tipo === "Posible Hotsale"
+    }
+
 
     function renderLoginAdmin(request, response) {
         response.render("admin/login")
@@ -68,7 +72,48 @@ module.exports = (mongoose) => {
         });
     }
 
+    async function renderHotsaleList(request, response) {
+        semanasConHotsale = []
+        propiedades = await Propiedad.find({})
+        let hotsales = [];
+        propiedadesConHotsale = propiedades.filter((propiedad) => {
+            hotsalesDePropiedad = propiedad.semanas.filter(esHotsale);
+            hotsalesDePropiedad = hotsalesDePropiedad.map((semana) => {
+                return {numeroSemana:semana.numeroSemana, direccion: propiedad.direccion, imagen:propiedad.imagen}
+            })
+            hotsales = [...hotsales, ...hotsalesDePropiedad]
+            return hotsalesDePropiedad
+        })
+        console.log(hotsales);
+        response.render("admin/hotsale-list", {
+            hotsales,
+            title: "Posibles Hotsales",
+            goTo: "hotsale",
+
+        });
+    }
+
     async function renderActiveSubastasList(request, response) {
+        semanasConSubasta = []
+        propiedades = await Propiedad.find({})
+        propiedadesConSubasta = propiedades.filter((propiedad) => {
+            semana = propiedad.semanas.find(esSubasta)
+            if (semana && semana.subasta.habilitada) {
+                semanasConSubasta.push(semana);
+                return semana
+            }
+            return false
+        })
+        response.render("admin/subastas-list", {
+            propiedadesConSubasta,
+            semanasConSubasta,
+            title: "Subastas Activas",
+            goTo: "subasta-detail",
+
+        });
+    }
+
+    async function renderActiveHotsaleList(request, response) {
         semanasConSubasta = []
         propiedades = await Propiedad.find({})
         propiedadesConSubasta = propiedades.filter((propiedad) => {
@@ -110,8 +155,16 @@ module.exports = (mongoose) => {
     async function closeSubasta(request, response) {
         propiedad = await Propiedad.findOne({ _id: request.params.id })
         semana = propiedad.semanas.find(esSubasta)
-        semana.tipo = "Reservada";
-        semana.subasta.habilitada = false;
+        if(!semana.subasta.pujas || semana.subasta.pujas.length === 0){
+            semana.tipo = "Posible Hotsale";
+        } else {
+            let usuario = await Usuario.findOne({_id: semana.subasta.pujas[0].usuario});
+            usuario.reservas = [...usuario.reservas, {propiedad:propiedad._id, semana:semana.numeroSemana} ]
+            semana.tipo = "Reservada";
+            semana.subasta.habilitada = false;
+            semana.usuario = semana.subasta.pujas[0].usuario;
+            usuario.save();
+        }
         propiedad.semanas[semana.numeroSemana - 1] = semana;
         propiedad.save();
         return response.redirect("/admin/subastas-list");
@@ -175,6 +228,8 @@ module.exports = (mongoose) => {
         closeSubasta,
         renderUserList,
         renderUserDetails,
+        renderHotsaleList,
+        renderActiveHotsaleList,
         changeUserState
     }
 }

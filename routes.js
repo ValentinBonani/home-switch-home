@@ -108,6 +108,8 @@ module.exports = (app, router) => {
     router.get('/delete-property/:id', authAdmin, paginasAdminController.deleteProperty);
     router.get('/admin/subastas-list', authAdmin, paginasAdminController.renderSubastasList);
     router.get('/admin/active-subastas-list', authAdmin, paginasAdminController.renderActiveSubastasList);
+    router.get('/admin/hotsale-list', authAdmin, paginasAdminController.renderHotsaleList);
+    router.get('/admin/active-hotsale-list', authAdmin, paginasAdminController.renderActiveHotsaleList);
     router.get('/admin/subasta/:id', authAdmin, paginasAdminController.renderSubastaDetail);
     router.get('/admin/subasta-detail/:id', authAdmin, paginasAdminController.renderSubastaActivaDetail);
     router.post('/admin/activate-subasta/:id', authAdmin, paginasAdminController.activateSubasta);

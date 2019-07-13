@@ -69,10 +69,10 @@ function mapSemanas(propiedad, index, arr) {
     semanaHotsale = determineHotsale();
 
     if (((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale)))
-        newSemana.tipo = 'Hotsale'
+        newSemana.tipo = 'Posible Hotsale'
     if ((semanaHotsale < semanaActual)) {
         if (newSemana.numeroSemana >= semanaActual || newSemana.numeroSemana <= semanaHotsale) {
-            newSemana.tipo = 'Hotsale'
+            newSemana.tipo = 'Posible Hotsale'
         }
     }
     return newSemana;

@@ -15,6 +15,7 @@ module.exports = (mongoose) => {
         { nombre: "Subasta" },
         { nombre: "Hotsales" }
     ]
+    
     const Propiedad = mongoose.model("Propiedad");
 
     function determinePrice(subasta) {
@@ -112,11 +113,14 @@ module.exports = (mongoose) => {
                     numeroSemana:semana.numeroSemana
                 }
         })
+        let error = request.query && request.query.error;
+        console.log(error);
         response.render("property-details", {
             propiedad,
             semanas,
             periodoSemanas,
-            usuario
+            usuario,
+            error
         });
     }
 

@@ -21,12 +21,17 @@ module.exports = (mongoose) => {
         let propiedad = await Propiedad.findById( request.params.id); 
         let usuario = await getUsuario(request.session.userId);
         let semana = request.body.semana;
-        propiedad.semanas[parseInt(semana) - 1].tipo = "Reservada";
-        propiedad.semanas[parseInt(semana) - 1].usuario = usuario._id;
-        propiedad.save();
-        usuario.reservas = [...usuario.reservas, { propiedad:propiedad._id, semana }]
-        usuario.save()
-        return  response.redirect("/my-properties");
+        if(usuario.creditos > 0){
+            propiedad.semanas[parseInt(semana) - 1].tipo = "Reservada";
+            propiedad.semanas[parseInt(semana) - 1].usuario = usuario._id;
+            propiedad.save();
+            usuario.reservas = [...usuario.reservas, { propiedad:propiedad._id, semana }]
+            usuario.creditos--;
+            usuario.save()
+            return response.redirect("/my-properties");
+        } else {
+            return response.redirect(`/property-detail/${request.params.id}?error=no-credits`);
+        }
     }
 
     return {
