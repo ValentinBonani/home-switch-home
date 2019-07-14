@@ -17,10 +17,16 @@ const SubastaSchema = new mongoose.Schema({
     pujas: [PujaSchema],
 });
 
+const HotsaleSchema = new mongoose.Schema({
+    monto: { type: String, required: true },
+    habilitada: { type: Boolean, default: false },
+});
+
 const SemanaSchema = new mongoose.Schema({
     numeroSemana: { type: String, required: true },
     tipo: { type: String, required: true },
     subasta: SubastaSchema,
+    hotsale: HotsaleSchema,
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario'
@@ -64,15 +70,24 @@ function mapSemanas(propiedad, index, arr) {
     }
 
     semanaActual = moment().week();
-    console.log(semanaActual)
 
     semanaHotsale = determineHotsale();
 
-    if (((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale)))
+    if (((newSemana.numeroSemana >= semanaActual) && (newSemana.numeroSemana <= semanaHotsale))) {
+
         newSemana.tipo = 'Posible Hotsale'
+        newSemana.hotsale = {
+            monto: 0,
+            habilitada: false
+        }
+    }
     if ((semanaHotsale < semanaActual)) {
         if (newSemana.numeroSemana >= semanaActual || newSemana.numeroSemana <= semanaHotsale) {
-            newSemana.tipo = 'Posible Hotsale'
+            newSemana.tipo = 'Posible Hotsale';
+            newSemana.hotsale = {
+                monto: 0,
+                habilitada: false
+            }
         }
     }
     return newSemana;

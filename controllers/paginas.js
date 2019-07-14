@@ -15,7 +15,7 @@ module.exports = (mongoose) => {
         { nombre: "Subasta" },
         { nombre: "Hotsales" }
     ]
-    
+
     const Propiedad = mongoose.model("Propiedad");
 
     function determinePrice(subasta) {
@@ -71,18 +71,17 @@ module.exports = (mongoose) => {
         return (parseInt(hasta) - parseInt(desde)) < semanas;
     }
 
-    async function renderMyProperties (request, response) {
+    async function renderMyProperties(request, response) {
         let usuario = await getUsuario(request.session.userId);
         let reservas = usuario.reservas;
-        let promiseReservas = reservas.map( async (reserva) => {
+        let promiseReservas = reservas.map(async(reserva) => {
             let newReserva = {}
-            if(moment().week() > parseInt(reserva.semana) ){
+            if (moment().week() > parseInt(reserva.semana)) {
                 newReserva.semana = `${moment().day("Sunday").week(reserva.semana).add(1, 'years').format("DD/MM/YY")} - ${moment().day("Saturday").week(reserva.semana).add(1, "years").format("DD/MM/YY")}`;
-                console.log(newReserva,1);
-            }
-            else{
+                console.log(newReserva, 1);
+            } else {
                 newReserva.semana = `${moment().day("Sunday").week(reserva.semana).format("DD/MM/YY")} - ${moment().day("Saturday").week(reserva.semana).format("DD/MM/YY")}`;
-                console.log(newReserva,2);                
+                console.log(newReserva, 2);
             }
             newReserva.propiedad = await Propiedad.findById(reserva.propiedad);
             console.log(newReserva);
@@ -95,22 +94,22 @@ module.exports = (mongoose) => {
         });
     }
 
-    async function renderPropertyDetail (request, response) {
+    async function renderPropertyDetail(request, response) {
         let usuario = await getUsuario(request.session.userId);
-        let propiedad = await Propiedad.findById( request.params.id); 
-        let semanas = propiedad.semanas.filter( (semana) => {
+        let propiedad = await Propiedad.findById(request.params.id);
+        let semanas = propiedad.semanas.filter((semana) => {
             return semana.tipo === "Disponible";
         })
-        let periodoSemanas = semanas.map( (semana) => {
-            if(moment().week() > parseInt(semana.numeroSemana) )
+        let periodoSemanas = semanas.map((semana) => {
+            if (moment().week() > parseInt(semana.numeroSemana))
                 return {
-                    periodo:` ${moment().day("Sunday").week(semana.numeroSemana).add(1, 'years').format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).add(1, "years").format("DD/MM/YY")}`,
-                    numeroSemana:semana.numeroSemana
+                    periodo: ` ${moment().day("Sunday").week(semana.numeroSemana).add(1, 'years').format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).add(1, "years").format("DD/MM/YY")}`,
+                    numeroSemana: semana.numeroSemana
                 }
             else
                 return {
-                    periodo:` ${moment().day("Sunday").week(semana.numeroSemana).format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).format("DD/MM/YY")}`,
-                    numeroSemana:semana.numeroSemana
+                    periodo: ` ${moment().day("Sunday").week(semana.numeroSemana).format("DD/MM/YY")} - ${moment().day("Saturday").week(semana.numeroSemana).format("DD/MM/YY")}`,
+                    numeroSemana: semana.numeroSemana
                 }
         })
         let error = request.query && request.query.error;
@@ -229,7 +228,7 @@ module.exports = (mongoose) => {
     async function getSubastas() {
         let semanasConSubasta = [];
         let propiedades = await Propiedad.find({})
-        return propiedades.filter((propiedad) => {
+        let propiedadesConSubasta = propiedades.filter((propiedad) => {
             semana = propiedad.semanas.find((esSubasta))
             if (semana && semana.subasta.habilitada) {
                 semanasConSubasta.push(semana);
@@ -237,12 +236,12 @@ module.exports = (mongoose) => {
             }
             return false
         })
+        return [propiedadesConSubasta, semanasConSubasta]
     }
 
 
     async function renderSubastaList(request, response) {
-        let semanasConSubasta = []
-        semanasConSubasta = getSubastas();
+        [propiedadesConSubasta, semanasConSubasta] = await getSubastas();
         response.render("subasta-list", {
             propiedadesConSubasta,
             semanasConSubasta,

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> super-admin/template/head }}
+
+<body>
+    {{> super-admin/template/header }}
+        <div class="page-wrapper">
+
+            <div class="container-fluid">
+ 
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <form action="/admin/add-admin" method="post" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Nuevo Administrador</h4>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Nombre Completo</label>
+                                        <div class="col-sm-9">
+                                            <input required type="text" name="nombre" class="form-control" id="fname" placeholder="Ingrese Nombre">
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input required type="email" name="email" class="form-control" id="fname" placeholder="Ingrese Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Contraseña</label>
+                                        <div class="col-sm-9">
+                                            <input required name="password" type="password" class="form-control" id="lname" placeholder="Ingrese Contraseña">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <input type="submit" value="Agregar" class="btn btn-primary  py-2 px-4 rounded-0">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            {{> super-admin/template/footer }}
+            
+        </div>
+        
+    </div>
+
+    {{> super-admin/template/scripts }}
+
+</body>
+
+</html>

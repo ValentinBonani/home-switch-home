@@ -6,11 +6,14 @@ const {
     PropiedadesController,
     PaginasAdminController,
     SubastasController,
-    ReservasController
+    ReservasController,
+    SuperAdminController,
+    PaginasSuperAdminController
 } = require("./controllers");
 
 const auth = require("./middleware/auth");
 const authAdmin = require("./middleware/authAdmin");
+const authSuperAdmin = require("./middleware/authSuperAdmin");
 
 function mapGenericControllerRoutes(controllers, router) {
     controllers.forEach(({ basePath, controller }) => {
@@ -35,11 +38,14 @@ module.exports = (app, router) => {
     const paginasAdminController = PaginasAdminController(mongoose);
     const subastasController = SubastasController(mongoose);
     const reservasController = ReservasController(mongoose);
+    const superAdminController = SuperAdminController(mongoose)
+    const paginasSuperAdminController = PaginasSuperAdminController(mongoose);
 
     const controllers = [
         { basePath: "/usuarios", controller: usuariosController },
         { basePath: "/administrador", controller: administradorController },
         { basePath: "/propiedades", controller: propiedadesController },
+        { basePath: "/super-admin", controller: superAdminController },
     ];
 
     mapGenericControllerRoutes(controllers, router);
@@ -83,7 +89,13 @@ module.exports = (app, router) => {
     router.route("/reserve-property/:id")
         .post(auth, reservasController.directReserve);
 
-
+    router.route("/admin/super-home")
+        .get(authSuperAdmin, paginasSuperAdminController.renderSuperAdminHome);
+    router.route("/admin/add-admin")
+        .get(authSuperAdmin, paginasSuperAdminController.renderAddAdmin)
+        .post(authSuperAdmin, paginasSuperAdminController.addNewAdmin)
+    router.route("/admin/delete-admin/:id")
+        .get(authSuperAdmin, paginasSuperAdminController.deleteAdmin);
 
     router.route("/admin")
         .get(paginasAdminController.renderLoginAdmin);
@@ -112,7 +124,12 @@ module.exports = (app, router) => {
     router.get('/admin/active-hotsale-list', authAdmin, paginasAdminController.renderActiveHotsaleList);
     router.get('/admin/subasta/:id', authAdmin, paginasAdminController.renderSubastaDetail);
     router.get('/admin/subasta-detail/:id', authAdmin, paginasAdminController.renderSubastaActivaDetail);
+    router.get('/admin/hotsale-detail/:id/:numeroSemana', authAdmin, paginasAdminController.renderPosibleHotsaleDetail);
+    router.get('/admin/active-hotsale-detail/:id/:numeroSemana', authAdmin, paginasAdminController.renderActiveHotsaleDetail);
     router.post('/admin/activate-subasta/:id', authAdmin, paginasAdminController.activateSubasta);
+    router.post('/admin/activate-hotsale/:id/:numeroSemana', authAdmin, paginasAdminController.activateHotsale);
+    router.post('/admin/cancel-hotsale/:id/:numeroSemana', authAdmin, paginasAdminController.cancelHotsale);
+    router.post('/admin/edit-hotsale/:id/:numeroSemana', authAdmin, paginasAdminController.editHotsale);
     router.post('/admin/close-subasta/:id', authAdmin, paginasAdminController.closeSubasta);
 
     return router;

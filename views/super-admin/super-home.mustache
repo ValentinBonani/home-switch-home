@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> super-admin/template/head }}
+
+<body>
+
+    {{> super-admin/template/header }}
+
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h5 class="card-title">Administradores</h5>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">Buscar administrador</span>
+                                            </div>
+                                            <input id="searchInput" type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr id="thead">
+                                                <th>Nombre Completo</th>
+                                                <th>Email</th>
+                                                <th>Baja</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#administradores}}
+                                                <tr id="trow" class="cursor-pointer">
+                                                        <td>{{nombre}}</td>
+                                                        <td>{{email}}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger ml-5 py-2 px-4 rounded-0" data-toggle="modal" data-target="#deleteModal-{{_id}}">
+                                                                Dar de Baja
+                                                            </button>
+                                                        </td>
+                                                </tr>
+                                            {{/administradores}}
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{> super-admin/template/footer }}
+        </div>
+    </div>
+    {{> super-admin/template/scripts }}
+    {{#administradores}}
+        <div class="modal fade" id="deleteModal-{{_id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Está Seguro que desea dar de baja este administrador?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Despues de esta accion {{nombre}} no podra acceder mas a la plataforma.
+                </div>
+                <div class="modal-footer">
+                <form action="" method="get" class="form-horizontal">
+                    <button  type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" method="delete" formaction="/admin/delete-admin/{{_id}}">Dar de Baja</button>
+                    <button type="button" class="btn btn-secondary px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Cancelar</button>
+                </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    {{/administradores}}
+</body>
+
+<script>
+$(document).ready(function(){
+  $("#searchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#zero_config #trow").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+</html>

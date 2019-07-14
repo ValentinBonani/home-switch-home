@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> admin/template/head }}
+
+<body>
+    {{> admin/template/header }}
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h1 class="page-title">Detalles del Hotsale</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row el-element-overlay">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <form action="" method="get" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Propiedad</h4>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Pais</label>
+                                        <div class="col-sm-9">
+                                            <input disabled type="text" name="pais" class="form-control" id="fname" value="{{propiedad.pais}}" placeholder="Ingrese Pais">
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Provincia</label>
+                                        <div class="col-sm-9">
+                                            <input disabled type="text" name="provincia" class="form-control" id="fname"value="{{propiedad.provincia}}" placeholder="Ingrese Provincia">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Ciudad</label>
+                                        <div class="col-sm-9">
+                                            <input disabled name="ciudad" type="text" class="form-control" id="lname"value="{{propiedad.ciudad}}" placeholder="Ingrese Ciudad">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Direccion</label>
+                                        <div class="col-sm-9">
+                                            <input disabled type="text" name="direccion" class="form-control" id="lname" value="{{propiedad.direccion}}" placeholder="Ingrese Direccion">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="email1" class="col-sm-3 text-right control-label col-form-label">Tipo</label>
+                                        <div class="col-sm-9">
+                                            <input disabled type="text" name="tipo" class="form-control" id="email1" value="{{propiedad.tipo}}" placeholder="Ingrese Tipo">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Imagen</label>
+                                        <div class="col-sm-9">
+                                            <input disabled type="text" name="imagen" class="form-control" id="cono1" value="{{propiedad.imagen}}" placeholder="Ingrese imagen">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Descripcion</label>
+                                        <div class="col-sm-9">
+                                            <input disabled name="descripcion" value="{{propiedad.descripcion}}" class="form-control"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <form action="/admin/activate-hotsale/{{propiedad._id}}/{{numeroSemana}}" method="post" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Hotsale</h4>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                            Numero de semana
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <div class="form-control">
+                                                {{ numeroSemana }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Monto</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="montoMinimo" class="form-control" id="fname" required  placeholder="Ingrese monto">
+                                        </div>
+                                    </div>
+                                    <div class="border-top">
+                                        <div class="card-body">
+                                            <input type="submit" value="Publicar Hotsale" class="btn btn-primary  py-2 px-4 rounded-0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+           {{> admin/template/footer }}
+        </div>
+    </div>
+    {{> admin/template/scripts }}
+</body>
+
+</html>
