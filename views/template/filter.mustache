@@ -1,7 +1,12 @@
 <div class="site-section site-section-sm pb-0">
         <div class="container">
             <div class="row">
+            {{#filter}}
+                <form method="POST" action="/{{type}}-filter"  class="form-search col-md-12" style="margin-top: -100px;">
+            {{/filter}}
+            {{^filter}}
                 <form method="POST" action="/property-filter"  class="form-search col-md-12" style="margin-top: -100px;">
+            {{/filter}}
                     <div class="row  align-items-end">
                         <div class="col-md-3">
                             <label for="list-types">Ubicacion</label>

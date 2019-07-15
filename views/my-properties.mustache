@@ -19,25 +19,26 @@
         <h2 class="h2 text-black ml-3 mb-5">Todas mis reservas</h2>
         {{#reservas}}
             <div class="row mb-4 mx-5">
-                    <div class="col-md-12">
-                        <div class="property-entry horizontal d-lg-flex">
+              <div class="col-md-12">
+                <div class="property-entry horizontal d-lg-flex">
 
-                            <a href="#" class="property-thumbnail h-100">
-                                <img src="{{propiedad.imagen}}" alt="Image" class="img-fluid">
-                            </a>
+                  <a href="#" class="property-thumbnail h-100">
+                      <img src="{{propiedad.imagen}}" alt="Image" class="img-fluid">
+                  </a>
 
-                            <div class="p-4 property-body">
-                                <h2 class="property-title"><a href="#">{{propiedad.direccion}}</a></h2>
-                                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> {{propiedad.direccion}} {{propiedad.ciudad}}, {{propiedad.provincia}} {{propiedad.pais}}</span>
-                                <strong class="property-price text-primary mb-3 d-block text-success">{{propiedad.tipo}}</strong>
-                                <p>{{propiedad.descripcion}}</p>
-                                <p>Reservada para el {{semana}}</p>
-                                
-                            </div>
-
-                        </div>
-                    </div>
+                  <div class="p-4 property-body">
+                    <h2 class="property-title"><a href="#">{{propiedad.direccion}}</a></h2>
+                    <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> {{propiedad.direccion}} {{propiedad.ciudad}}, {{propiedad.provincia}} {{propiedad.pais}}</span>
+                    <strong class="property-price text-primary mb-3 d-block text-success">{{propiedad.tipo}}</strong>
+                    <p>{{propiedad.descripcion}}</p>
+                    <p>Reservada para el {{semana}}</p>
+                    <button type="button" class="btn btn-danger ml-5 py-2 px-4 rounded-0" data-toggle="modal" data-target="#deleteModal-{{propiedad._id}}-{{numeroSemana}}">
+                        Cancelar Reserva
+                    </button>
+                  </div>
                 </div>
+              </div>
+            </div>
         {{/reservas}}
         {{^reservas}}
             No posees ninguna reserva 
@@ -49,6 +50,31 @@
     </div> 
 
     {{> template/scripts}} 
+
+    {{#reservas}}
+      <div class="modal fade" id="deleteModal-{{propiedad._id}}-{{numeroSemana}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">¿Está Seguro que desea cancelar esta reserva?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                No se le devolvera el credito
+              </div>
+              <div class="modal-footer">
+              <form action="" method="POST" class="form-horizontal">
+                  <button  type="submit" class="btn btn-danger ml-5 py-2 px-4 rounded-0" method="POST" formaction="/cancel-reservation/{{propiedad._id}}/{{numeroSemana}}">Cancelar Reserva</button>
+                  <button type="button" class="btn btn-secondary px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Volver</button>
+              </form>
+              </div>
+              </div>
+          </div>
+      </div>
+    {{/reservas}}
+
 
   </body>
 </html>

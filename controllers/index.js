@@ -8,6 +8,7 @@ const PropiedadesController = require("./propiedades");
 const SubastasController = require("./subastas");
 const ReservasController = require("./reservas");
 const PaginasSuperAdminController = require("./paginasSuperAdmin");
+const MontoController = require("./monto");
 
 module.exports = {
     UsuariosController,
@@ -19,5 +20,6 @@ module.exports = {
     SubastasController,
     ReservasController,
     SuperAdminController,
-    PaginasSuperAdminController
+    PaginasSuperAdminController,
+    MontoController
 }

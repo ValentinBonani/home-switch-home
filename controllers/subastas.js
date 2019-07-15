@@ -7,8 +7,8 @@ module.exports = (mongoose) => {
     const Puja = mongoose.model("Puja");
 
     async function descontarYDevolverCredito(subasta, usuario) {
-        if(subasta.pujas.length != 0){
-            lastUser = await Usuario.findOne({_id: subasta.pujas[0].usuario});
+        if (subasta.pujas.length != 0) {
+            lastUser = await Usuario.findOne({ _id: subasta.pujas[0].usuario });
             lastUser.creditos++;
             console.log(lastUser);
             lastUser.save();
@@ -18,8 +18,8 @@ module.exports = (mongoose) => {
     }
 
 
-    function validateAmount (amount, subasta) {
-        if(subasta.pujas.length === 0){
+    function validateAmount(amount, subasta) {
+        if (subasta.pujas.length === 0) {
             return parseInt(amount) > parseInt(subasta.montoMinimo);
         } else {
             return parseInt(amount) > parseInt(subasta.pujas[0].monto);
@@ -37,7 +37,7 @@ module.exports = (mongoose) => {
 
         montoAPujar = request.body.monto;
 
-        if(validateAmount(montoAPujar, semana.subasta) && usuario.creditos > 0) {
+        if (validateAmount(montoAPujar, semana.subasta) && usuario.creditos > 0) {
             descontarYDevolverCredito(semana.subasta, usuario)
             newPuja = {
                 usuario: request.session.userId,
@@ -49,7 +49,7 @@ module.exports = (mongoose) => {
         } else {
             console.log("Puja menor al actual");
         }
-        return response.redirect("/subasta-detail/" + request.params.id);
+        return response.redirect(`/subasta-detail/${request.params.id}/${request.params.numeroSemana}`);
 
 
 

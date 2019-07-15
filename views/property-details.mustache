@@ -65,7 +65,9 @@
                     <button type="submit" class="btn btn-success my-3" formaction="/reserve-property/{{propiedad._id}}">Reserva Propiedad</button>
                   {{/usuario.tipo}}
                   {{^usuario.tipo}}
-                    <button type="submit" class="btn btn-success my-3">ALTO GATO NO PREMIUM</button>
+                    <label class="mt-3" for="sel1">Debes ser usuario premium para alquilar una propiedad de forma directa</label>
+
+                    <button type="submit" disabled class="btn btn-success my-3">Reservar</button>
                   {{/usuario.tipo}}
                 </form>
               </div>

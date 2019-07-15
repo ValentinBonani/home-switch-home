@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+{{> super-admin/template/head }}
+
+<body>
+    {{> super-admin/template/header }}
+        <div class="page-wrapper">
+
+            <div class="container-fluid">
+ 
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <form action="/admin/modify-premium" method="POST" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Monto Mensual Para Usuarios Premium</h4>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Monto</label>
+                                        <div class="col-sm-9">
+                                            <input required type="text" name="montoPremium"  class="form-control" id="fname" value="{{montos.montoPremium}}" placeholder="Ingrese monto">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <input type="submit" value="Modificar" class="btn btn-primary  py-2 px-4 rounded-0">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <form action="/admin/modify-standard" method="POST" class="form-horizontal">
+                                <div class="card-body">
+                                    <h4 class="card-title">Monto Mensual Para Usuarios Standard</h4>
+                                    <div class="form-group row">
+                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">Monto</label>
+                                        <div class="col-sm-9">
+                                            <input required type="text" name="montoStandard" class="form-control" value="{{montos.montoStandard}}" id="fname" placeholder="Ingrese monto">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <input type="submit" value="Modificar" class="btn btn-primary  py-2 px-4 rounded-0">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            {{> super-admin/template/footer }}
+            
+        </div>
+        
+    </div>
+
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Se ha modificado el monto con exito</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-footer">
+            <form action="" method="get" class="form-horizontal">
+                <button type="button" class="btn btn-secondary px-4 ml-5 py-2 rounded-0" data-dismiss="modal">Volver</button>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    {{> super-admin/template/scripts }}
+    {{#show}}
+        <script type="text/javascript">
+        $(window).on('load',function(){
+            $('#myModal').modal('show');
+        });
+        </script> 
+    {{/show}}
+
+</body>
+
+</html>
