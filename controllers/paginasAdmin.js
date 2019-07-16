@@ -15,6 +15,11 @@ module.exports = (mongoose) => {
         return semana.tipo === "Hotsale"
     }
 
+    function esSubastaActiva(semana) {
+        return semana.tipo === "Subasta"
+    }
+
+
 
     function renderLoginAdmin(request, response) {
         response.render("admin/login")
@@ -222,13 +227,29 @@ module.exports = (mongoose) => {
         }
     }
 
+    async function modifyMontoSubasta(request, response) {
+        let propiedad = await Propiedad.findOne({ _id: request.params.id })
+        let semana = propiedad.semanas.find((semana) => semana.numeroSemana == request.params.numeroSemana)
+        if (esSubastaActiva(semana)) {
+            semana.subasta.montoMinimo = request.body.montoMinimo;
+            propiedad.semanas[request.params.numeroSemana - 1] = semana;
+            propiedad.save();
+            return response.redirect(`/admin/subasta-detail/${request.params.id}`);
+        } else {
+            return response.redirect("/admin");
 
+        }
+    }
 
     async function closeSubasta(request, response) {
         propiedad = await Propiedad.findOne({ _id: request.params.id })
         semana = propiedad.semanas.find(esSubasta)
         if (!semana.subasta.pujas || semana.subasta.pujas.length === 0) {
             semana.tipo = "Posible Hotsale";
+            semana.hotsale = {
+                monto: 0,
+                habilitada: false
+            }
         } else {
             let usuario = await Usuario.findOne({ _id: semana.subasta.pujas[0].usuario });
             usuario.reservas = [...usuario.reservas, { propiedad: propiedad._id, semana: semana.numeroSemana }]
@@ -299,6 +320,7 @@ module.exports = (mongoose) => {
         renderActiveSubastasList,
         closeSubasta,
         renderUserList,
+        modifyMontoSubasta,
         renderUserDetails,
         renderHotsaleList,
         renderActiveHotsaleList,

@@ -152,6 +152,7 @@ module.exports = (app, router) => {
     router.post('/admin/cancel-hotsale/:id/:numeroSemana', authAdmin, paginasAdminController.cancelHotsale);
     router.post('/admin/edit-hotsale/:id/:numeroSemana', authAdmin, paginasAdminController.editHotsale);
     router.post('/admin/close-subasta/:id', authAdmin, paginasAdminController.closeSubasta);
+    router.post('/admin/modify-subasta/:id/:numeroSemana', authAdmin, paginasAdminController.modifyMontoSubasta);
 
     return router;
 };

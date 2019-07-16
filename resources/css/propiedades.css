@@ -1,0 +1,25 @@
+.Reservada {
+    background-color: #0096d2;
+    border-color: #0096d2;
+}
+
+.Disponible {
+    background-color: #28b779;
+    border-color: #28b779;
+}
+
+.Posible {
+    background-color: #da542e !important;
+    border-color: #da542e !important;
+}
+
+.Hotsale {
+    background-color: #f80000;
+    border-color: #f80000;
+}
+
+.Subasta {
+    background-color: #f8f32b;
+    border-color: #f8f32b;
+    color: black;
+}

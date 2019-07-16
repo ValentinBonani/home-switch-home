@@ -80,11 +80,32 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">
+                                            Monto Minimo
+                                        </label>
+                                        <div class="col-sm-6">
+                                            {{#pujas}}
+                                                <input disabled required type="text" name="montoMinimo"  class="form-control" id="fname" value="{{semana.subasta.montoMinimo}}" placeholder="Ingrese monto minimo">
+                                            {{/pujas}}
+                                            {{^pujas}}
+                                                <input required type="text" name="montoMinimo"  class="form-control" id="fname" value="{{semana.subasta.montoMinimo}}" placeholder="Ingrese monto minimo">
+                                            {{/pujas}}
+                                        </div>
+                                        <div class="col-sm-3">
+                                            {{#pujas}}
+                                                <input disabled type="submit" formaction="/admin/modify-subasta/{{propiedad._id}}/{{semana.numeroSemana}}" value="Modificar Monto" class="btn btn-primary  py-2 px-4 rounded-0">
+                                            {{/pujas}}
+                                            {{^pujas}}   
+                                                <input type="submit" formaction="/admin/modify-subasta/{{propiedad._id}}/{{semana.numeroSemana}}" value="Modificar Monto" class="btn btn-primary  py-2 px-4 rounded-0">
+                                            {{/pujas}}
+                                        </div>
+                                    </div>
                                     {{#pujas}}
                                         <div class="form-group row">
                                             <label for="fname" class="col-sm-3 text-right control-label col-form-label">Puja</label>
                                             <div class="col-sm-9">
-                                                <input disabled type="text" name="montoMinimo" class="form-control" value="{{monto}}" id="fname" required  placeholder="Ingrese monto">
+                                                <input disabled type="text" name="monto" class="form-control" value="{{monto}}" id="fname" required  placeholder="Ingrese monto">
                                             </div>
                                         </div>
                                     {{/pujas}}
