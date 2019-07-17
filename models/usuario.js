@@ -7,7 +7,7 @@ const ReservaSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Propiedad'
     },
-    semana: { type: Number, required: true},
+    semana: { type: Number, required: true },
 })
 
 const UsuarioSchema = new mongoose.Schema({
@@ -23,7 +23,7 @@ const UsuarioSchema = new mongoose.Schema({
     fechaDeIngreso: { type: Date, required: true, default: new Date() },
     pedido: { type: Boolean, required: true, default: false },
     reservas: [ReservaSchema]
-    
+
 });
 
 UsuarioSchema.pre('save', function(next) {

@@ -6,6 +6,15 @@ module.exports = (mongoose) => {
     const Usuario = mongoose.model("Usuario");
     const Puja = mongoose.model("Puja");
 
+    function determinePrice(subasta) {
+        console.log(subasta)
+        if (subasta.pujas.length === 0) {
+            return subasta.montoMinimo
+        } else {
+            return subasta.pujas[0].monto;
+        }
+    }
+
     async function descontarYDevolverCredito(subasta, usuario) {
         if (subasta.pujas.length != 0) {
             lastUser = await Usuario.findOne({ _id: subasta.pujas[0].usuario });
@@ -34,7 +43,7 @@ module.exports = (mongoose) => {
         propiedad = await Propiedad.findOne({ _id: request.params.id });
         usuario = await Usuario.findOne({ _id: request.session.userId });
         semana = propiedad.semanas.find(esSubasta);
-
+        mensaje = { texto: "Puja exitosa" }
         montoAPujar = request.body.monto;
 
         if (validateAmount(montoAPujar, semana.subasta) && usuario.creditos > 0) {
@@ -46,10 +55,21 @@ module.exports = (mongoose) => {
             }
             propiedad.semanas[semana.numeroSemana - 1].subasta.pujas = [newPuja, ...semana.subasta.pujas];
             propiedad.save();
+        } else if (validateAmount(montoAPujar, semana.subasta)) {
+            mensaje.texto = "Usted no posee creditos sufientes para realizar esta operación"
         } else {
-            console.log("Puja menor al actual");
+            mensaje.texto = "El Monto Ingresado es menor al monto actual"
         }
-        return response.redirect(`/subasta-detail/${request.params.id}/${request.params.numeroSemana}`);
+        montoActual = determinePrice(semana.subasta);
+        numeroSemana = request.params.numeroSemana;
+        response.render("subasta-detail", {
+            propiedad,
+            semana,
+            montoActual,
+            usuario,
+            numeroSemana,
+            mensaje
+        });
 
 
 

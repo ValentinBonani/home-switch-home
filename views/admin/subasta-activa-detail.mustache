@@ -85,20 +85,12 @@
                                             Monto Minimo
                                         </label>
                                         <div class="col-sm-6">
-                                            {{#pujas}}
-                                                <input disabled required type="text" name="montoMinimo"  class="form-control" id="fname" value="{{semana.subasta.montoMinimo}}" placeholder="Ingrese monto minimo">
-                                            {{/pujas}}
-                                            {{^pujas}}
-                                                <input required type="text" name="montoMinimo"  class="form-control" id="fname" value="{{semana.subasta.montoMinimo}}" placeholder="Ingrese monto minimo">
-                                            {{/pujas}}
+                                            <input {{#pujas}} disabled {{/pujas}} required type="text" name="montoMinimo"  class="form-control" id="fname" value="{{semana.subasta.montoMinimo}}" placeholder="Ingrese monto minimo">
                                         </div>
                                         <div class="col-sm-3">
-                                            {{#pujas}}
-                                                <input disabled type="submit" formaction="/admin/modify-subasta/{{propiedad._id}}/{{semana.numeroSemana}}" value="Modificar Monto" class="btn btn-primary  py-2 px-4 rounded-0">
-                                            {{/pujas}}
-                                            {{^pujas}}   
-                                                <input type="submit" formaction="/admin/modify-subasta/{{propiedad._id}}/{{semana.numeroSemana}}" value="Modificar Monto" class="btn btn-primary  py-2 px-4 rounded-0">
-                                            {{/pujas}}
+                                            
+                                                <input {{#pujas}} disabled {{/pujas}} type="submit" formaction="/admin/modify-subasta/{{propiedad._id}}/{{semana.numeroSemana}}" value="Modificar Monto" class="btn btn-primary  py-2 px-4 rounded-0">
+                                            
                                         </div>
                                     </div>
                                     {{#pujas}}
